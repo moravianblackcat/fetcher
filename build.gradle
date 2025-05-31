@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.0'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'com.github.davidmc24.gradle.plugin.avro' version '1.5.0'
 }
 
 group = 'cz.dan'
@@ -13,6 +14,10 @@ java {
 	}
 }
 
+compileJava {
+	options.compilerArgs = ['-Amapstruct.defaultComponentModel=spring']
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -21,13 +26,33 @@ configurations {
 
 repositories {
 	mavenCentral()
+	maven {
+		url = 'https://packages.confluent.io/maven/'
+	}
 }
 
 ext {
+	set('assertjVersion', '3.22.0')
+	set('cucumberVersion', '7.20.1')
+	set('jacksonVersion', '2.18.0')
+	set('junitVersion', '5.8.2')
+	set('lombokVersion', '1.18.22')
+	set('lombokMapstructBindingVersion', '0.2.0')
+	set('log4jVersion', '2.17.1')
+	set('mapStructVersion', '1.6.3')
 	set('springCloudVersion', "2025.0.0")
+	set('wiremockVersion', "2.35.1")
 }
 
 dependencies {
+	compileOnly "org.projectlombok:lombok:${lombokVersion}"
+
+	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+	annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
+	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
+
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -36,20 +61,54 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	implementation 'org.springframework.kafka:spring-kafka'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'io.confluent:kafka-avro-serializer:7.8.0'
+	implementation 'io.confluent:kafka-schema-registry-client:7.8.0'
+	implementation 'org.apache.avro:avro:1.12.0'
+	implementation "org.mapstruct:mapstruct:${mapStructVersion}"
+
+	testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
+
+	testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'io.cucumber:cucumber-java'
+	testImplementation 'io.cucumber:cucumber-spring'
+	testImplementation 'io.cucumber:cucumber-junit-platform-engine'
+	testImplementation 'org.junit.platform:junit-platform-suite'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api'
+	testImplementation "org.assertj:assertj-core:${assertjVersion}"
+	testImplementation 'com.mysql:mysql-connector-j'
+	testImplementation "com.github.tomakehurst:wiremock-jre8:${wiremockVersion}"
 }
 
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+		mavenBom "io.cucumber:cucumber-bom:${cucumberVersion}"
+		mavenBom "org.junit:junit-bom:${junitVersion}"
+	}
+}
+
+configurations {
+	cucumberRuntime {
+		extendsFrom testImplementation
 	}
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+	exclude '**/RunCucumberTests.class'
+}
+
+task integrationTests(type: JavaExec) {
+	dependsOn assemble, testClasses
+	mainClass = "io.cucumber.core.cli.Main"
+	classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+	args = [
+			'--plugin', 'pretty',
+			'--plugin', 'html:build/reports/cucumber-report.html',
+			'--glue', 'cz.dan.consumer.integration',
+			'src/test/resources/features'
+	]
 }
