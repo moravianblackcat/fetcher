@@ -1,0 +1,22 @@
+{
+  "type": "record",
+  "name": "FootballPlayerRequest",
+  "namespace": "cz.dan.avro.fetcher.request",
+  "fields": [
+    {
+      "name": "ids",
+      "type": {
+        "type": "array",
+        "items": "long"
+      }
+    },
+    {
+      "name": "source",
+      "type": {
+        "type": "enum",
+        "name": "Source",
+        "symbols": ["Sportmonks"]
+      }
+    }
+  ]
+}

@@ -12,6 +12,8 @@ java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
 	}
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 }
 
 compileJava {
@@ -34,12 +36,14 @@ repositories {
 ext {
 	set('assertjVersion', '3.22.0')
 	set('cucumberVersion', '7.20.1')
+	set('kafkaVersion', '7.9.1')
 	set('jacksonVersion', '2.18.0')
 	set('junitVersion', '5.8.2')
-	set('lombokVersion', '1.18.22')
+	set('lombokVersion', '1.18.38')
 	set('lombokMapstructBindingVersion', '0.2.0')
 	set('log4jVersion', '2.17.1')
 	set('mapStructVersion', '1.6.3')
+	set('mysqlConnectorVersion', '9.2.0')
 	set('springCloudVersion', "2025.0.0")
 	set('wiremockVersion', "2.35.1")
 }
@@ -47,7 +51,7 @@ ext {
 dependencies {
 	compileOnly "org.projectlombok:lombok:${lombokVersion}"
 
-	runtimeOnly 'com.mysql:mysql-connector-j'
+	runtimeOnly "com.mysql:mysql-connector-j:${mysqlConnectorVersion}"
 
 	annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 	annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
@@ -61,8 +65,8 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	implementation 'org.springframework.kafka:spring-kafka'
-	implementation 'io.confluent:kafka-avro-serializer:7.8.0'
-	implementation 'io.confluent:kafka-schema-registry-client:7.8.0'
+	implementation "io.confluent:kafka-avro-serializer:${kafkaVersion}"
+	implementation "io.confluent:kafka-schema-registry-client:${kafkaVersion}"
 	implementation 'org.apache.avro:avro:1.12.0'
 	implementation "org.mapstruct:mapstruct:${mapStructVersion}"
 
@@ -78,8 +82,9 @@ dependencies {
 	testImplementation 'org.junit.platform:junit-platform-suite'
 	testImplementation 'org.junit.jupiter:junit-jupiter-api'
 	testImplementation "org.assertj:assertj-core:${assertjVersion}"
-	testImplementation 'com.mysql:mysql-connector-j'
+	testImplementation "com.mysql:mysql-connector-j:${mysqlConnectorVersion}"
 	testImplementation "com.github.tomakehurst:wiremock-jre8:${wiremockVersion}"
+	testImplementation 'org.awaitility:awaitility:4.2.1'
 }
 
 dependencyManagement {

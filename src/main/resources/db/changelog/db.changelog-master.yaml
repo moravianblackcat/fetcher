@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: dan
+      changes:
+        - createTable:
+            tableName: football_player_request
+            columns:
+              - column:
+                  name: player_id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: source
+                  type: VARCHAR(255)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: state
+                  type: VARCHAR(20)
+                  defaultValue: SCHEDULED
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
