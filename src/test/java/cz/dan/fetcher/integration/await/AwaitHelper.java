@@ -10,7 +10,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 
-public class AwaitHelper {
+public final class AwaitHelper {
 
     private AwaitHelper() {
         throw new UnsupportedOperationException();
@@ -21,6 +21,21 @@ public class AwaitHelper {
         assertInSeconds(timeoutInSeconds, () -> {
             List<Map<String, Object>> actualRows = supplierOfActualRows.get();
             assertThat(actualRows).isNotNull().containsAll(expectedRows);
+        });
+    }
+
+    public static <T> void assertValue(int timeoutInSeconds, Supplier<T> supplierOfActualValue, T expectedValue) {
+        assertInSeconds(timeoutInSeconds, () -> {
+            T actualValue = supplierOfActualValue.get();
+            assertThat(actualValue).isNotNull().isEqualTo(expectedValue);
+        });
+    }
+
+    public static void assertValueContains(int timeoutInSeconds, Supplier<String> supplierOfActualValue,
+                                               String expectedValue) {
+        assertInSeconds(timeoutInSeconds, () -> {
+            String actualValue = supplierOfActualValue.get();
+            assertThat(actualValue).isNotNull().contains(expectedValue);
         });
     }
 

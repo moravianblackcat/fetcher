@@ -5,6 +5,7 @@ import cz.dan.fetcher.football.request.player.inbox.domain.entity.FootballPlayer
 import cz.dan.fetcher.football.request.player.inbox.domain.entity.mapper.FootballPlayerRequestMapper;
 import cz.dan.fetcher.football.request.player.inbox.domain.entity.mapper.FootballPlayerRequestMapperImpl;
 import cz.dan.fetcher.football.request.player.inbox.domain.source.FootballPlayerRequestSource;
+import cz.dan.fetcher.outbox.domain.entity.Source;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,12 +41,12 @@ class FootballPlayerRequestServiceImplTest {
         verify(repository, times(1)).saveAll(footballPlayerRequestsCaptor.capture());
         assertThat(footballPlayerRequestsCaptor.getValue())
                 .isNotNull()
-                .extracting(FootballPlayerRequest::getPlayerId,
+                .extracting(FootballPlayerRequest::getId,
                         FootballPlayerRequest::getSource,
                         FootballPlayerRequest::getState)
                 .containsExactly(
-                        Tuple.tuple(15L, FootballPlayerRequest.Source.Sportmonks, SCHEDULED),
-                        Tuple.tuple(22L, FootballPlayerRequest.Source.Sportmonks, SCHEDULED)
+                        Tuple.tuple(15L, Source.Sportmonks, SCHEDULED),
+                        Tuple.tuple(22L, Source.Sportmonks, SCHEDULED)
                 );
     }
 

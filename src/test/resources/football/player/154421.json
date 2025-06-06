@@ -1,0 +1,71 @@
+{
+  "data": {
+    "id": 154421,
+    "sport_id": 1,
+    "country_id": 462,
+    "nationality_id": 1578,
+    "city_id": 49373,
+    "position_id": 27,
+    "detailed_position_id": 151,
+    "type_id": 27,
+    "common_name": "E. Haaland",
+    "firstname": "Erling Braut",
+    "lastname": "Haaland",
+    "name": "Erling Håland",
+    "display_name": "Erling Haaland",
+    "image_path": "https://cdn.sportmonks.com/images/soccer/players/21/154421.png",
+    "height": 195,
+    "weight": 87,
+    "date_of_birth": "2000-07-21",
+    "gender": "male",
+    "nationality": {
+      "id": 1578,
+      "continent_id": 1,
+      "name": "Norway",
+      "official_name": "Kingdom of Norway",
+      "fifa_name": "NOR",
+      "iso2": "NO",
+      "iso3": "NOR",
+      "latitude": "66.76667022705078",
+      "longitude": "14.899925231933594",
+      "borders": [
+        "FIN",
+        "SWE",
+        "RUS"
+      ],
+      "image_path": "https://cdn.sportmonks.com/images/countries/png/short/no.png"
+    },
+    "position": {
+      "id": 27,
+      "name": "Attacker",
+      "code": "attacker",
+      "developer_name": "ATTACKER",
+      "model_type": "position",
+      "stat_group": null
+    }
+  },
+  "subscription": [
+    {
+      "meta": {
+        "trial_ends_at": "2025-06-14 12:17:28",
+        "ends_at": "2025-07-01 11:18:19",
+        "current_timestamp": 1748763866
+      },
+      "plans": [
+        {
+          "plan": "European Plan",
+          "sport": "Football",
+          "category": "Standard"
+        }
+      ],
+      "add_ons": [],
+      "widgets": []
+    }
+  ],
+  "rate_limit": {
+    "resets_in_seconds": 3491,
+    "remaining": 2997,
+    "requested_entity": "Player"
+  },
+  "timezone": "UTC"
+}

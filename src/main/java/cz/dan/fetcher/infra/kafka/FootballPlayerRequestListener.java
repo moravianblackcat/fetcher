@@ -1,11 +1,11 @@
-package cz.dan.fetcher.football.request.player.infra;
+package cz.dan.fetcher.infra.kafka;
 
 import cz.dan.avro.fetcher.request.FootballPlayerRequest;
 import cz.dan.avro.fetcher.request.Source;
 import cz.dan.fetcher.football.request.player.inbox.domain.service.FootballPlayerRequestService;
 import cz.dan.fetcher.football.request.player.inbox.domain.source.FootballPlayerRequestSource;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@Log4j2
+@Slf4j
 @RequiredArgsConstructor
 public class FootballPlayerRequestListener {
 

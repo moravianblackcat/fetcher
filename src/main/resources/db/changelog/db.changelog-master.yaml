@@ -7,7 +7,7 @@ databaseChangeLog:
             tableName: football_player_request
             columns:
               - column:
-                  name: player_id
+                  name: id
                   type: BIGINT
                   constraints:
                     primaryKey: true
@@ -25,5 +25,96 @@ databaseChangeLog:
               - column:
                   name: created_at
                   type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: football_player_request_failure_detail
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: reason
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: timestamp
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: player_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: source
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: football_player_request_failure_detail
+            baseColumnNames: player_id,source
+            referencedTableName: football_player_request
+            referencedColumnNames: id,source
+            constraintName: fk_failure_detail_to_request
+        - createTable:
+            tableName: football_player_request_outbox
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: source_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: nationality
+                  type: VARCHAR(3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: position
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: display_name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_of_birth
+                  type: DATE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: source
+                  type: VARCHAR(255)
                   constraints:
                     nullable: false

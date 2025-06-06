@@ -1,0 +1,75 @@
+{
+  "data": {
+    "id": 154441,
+    "sport_id": 1,
+    "country_id": 2,
+    "nationality_id": 2,
+    "city_id": null,
+    "position_id": 25,
+    "detailed_position_id": 154,
+    "type_id": 25,
+    "common_name": "B. Rymaniak",
+    "firstname": "Batosz",
+    "lastname": "Rymaniak",
+    "name": "Batosz Rymaniak",
+    "display_name": "Bartosz Rymaniak",
+    "image_path": "https://cdn.sportmonks.com/images/soccer/players/9/154441.png",
+    "height": 190,
+    "weight": 80,
+    "date_of_birth": "1989-11-13",
+    "gender": "male",
+    "nationality": {
+      "id": 2,
+      "continent_id": 1,
+      "name": "Poland",
+      "official_name": "Republic of Poland",
+      "fifa_name": "POL",
+      "iso2": "PL",
+      "iso3": "POL",
+      "latitude": "52.147850036621094",
+      "longitude": "19.37775993347168",
+      "borders": [
+        "BLR",
+        "CZE",
+        "DEU",
+        "LTU",
+        "RUS",
+        "SVK",
+        "UKR"
+      ],
+      "image_path": "https://cdn.sportmonks.com/images/countries/png/short/pl.png"
+    },
+    "position": {
+      "id": 25,
+      "name": "Defender",
+      "code": "defender",
+      "developer_name": "DEFENDER",
+      "model_type": "position",
+      "stat_group": null
+    }
+  },
+  "subscription": [
+    {
+      "meta": {
+        "trial_ends_at": "2025-06-14 12:17:28",
+        "ends_at": "2025-07-01 11:18:19",
+        "current_timestamp": 1748764568
+      },
+      "plans": [
+        {
+          "plan": "European Plan",
+          "sport": "Football",
+          "category": "Standard"
+        }
+      ],
+      "add_ons": [],
+      "widgets": []
+    }
+  ],
+  "rate_limit": {
+    "resets_in_seconds": 2789,
+    "remaining": 2992,
+    "requested_entity": "Player"
+  },
+  "timezone": "UTC"
+}

@@ -2,6 +2,7 @@ package cz.dan.fetcher.football.request.player.inbox.domain.entity.mapper;
 
 import cz.dan.fetcher.football.request.player.inbox.domain.entity.FootballPlayerRequest;
 import cz.dan.fetcher.football.request.player.inbox.domain.source.FootballPlayerRequestSource;
+import cz.dan.fetcher.outbox.domain.entity.Source;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,11 +18,11 @@ class FootballPlayerRequestMapperImplTest {
         assertThat(result)
                 .isNotNull()
                 .extracting(
-                        FootballPlayerRequest::getPlayerId,
+                        FootballPlayerRequest::getId,
                         FootballPlayerRequest::getSource,
                         FootballPlayerRequest::getState
                 ).containsExactly(
-                        1L, FootballPlayerRequest.Source.Sportmonks, FootballPlayerRequest.State.SCHEDULED
+                        1L, Source.Sportmonks, FootballPlayerRequest.State.SCHEDULED
                 );
     }
 

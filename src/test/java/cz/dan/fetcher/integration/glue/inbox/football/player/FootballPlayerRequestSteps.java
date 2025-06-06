@@ -1,4 +1,4 @@
-package cz.dan.fetcher.integration.glue.request.football.player;
+package cz.dan.fetcher.integration.glue.inbox.football.player;
 
 import cz.dan.avro.fetcher.request.FootballPlayerRequest;
 import cz.dan.avro.fetcher.request.Source;
@@ -27,7 +27,7 @@ public class FootballPlayerRequestSteps {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    @Given("Football player request for player ID {} from {} already exists as {}")
+    @Given("Football player request for player ID {} from {} exists as {}")
     public void footballPlayerRequestForPlayerIdFromAlreadyExistsAs(long playerId, String source, String state) {
         fixture.saveFootballPlayerRequest(playerId, source, state);
     }

@@ -1,4 +1,4 @@
-package cz.dan.fetcher.football.request.player.infra;
+package cz.dan.fetcher.infra.kafka;
 
 import cz.dan.avro.fetcher.request.FootballPlayerRequest;
 import cz.dan.avro.fetcher.request.Source;
