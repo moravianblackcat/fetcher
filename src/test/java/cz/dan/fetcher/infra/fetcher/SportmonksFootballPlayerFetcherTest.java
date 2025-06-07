@@ -1,14 +1,14 @@
 package cz.dan.fetcher.infra.fetcher;
 
-import cz.dan.fetcher.football.request.player.outbox.domain.entity.FootballPlayerRequestOutbox;
-import cz.dan.fetcher.infra.fetcher.api.football.SportmonksFootballApiClient;
-import cz.dan.fetcher.infra.fetcher.api.football.dto.SportmonksFootballPlayerProfileDto;
-import cz.dan.fetcher.infra.fetcher.api.football.dto.SportmonksFootballPlayerProfileDto.Data;
-import cz.dan.fetcher.infra.fetcher.api.football.dto.SportmonksFootballPlayerProfileDto.Data.Nationality;
-import cz.dan.fetcher.infra.fetcher.api.football.dto.SportmonksFootballPlayerProfileDto.Data.Position;
-import cz.dan.fetcher.infra.fetcher.api.football.dto.SportmonksFootballPlayerProfileDtoMapper;
-import cz.dan.fetcher.infra.fetcher.api.football.dto.SportmonksFootballPlayerProfileDtoMapperImpl;
-import cz.dan.fetcher.outbox.domain.exception.ResourceNotFoundException;
+import cz.dan.fetcher.domain.football.request.player.outbox.entity.FootballPlayerRequestOutbox;
+import cz.dan.fetcher.domain.outbox.exception.resource.ResourceNotFoundException;
+import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.SportmonksFootballApiClient;
+import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto.SportmonksFootballPlayerProfileDto;
+import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto.SportmonksFootballPlayerProfileDto.Data;
+import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto.SportmonksFootballPlayerProfileDto.Data.Nationality;
+import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto.SportmonksFootballPlayerProfileDto.Data.Position;
+import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto.SportmonksFootballPlayerProfileDtoMapper;
+import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto.SportmonksFootballPlayerProfileDtoMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,8 +22,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
-import static cz.dan.fetcher.infra.fetcher.api.football.dto.SportmonksFootballPlayerProfileDto.Data.PositionCode.midfielder;
-import static cz.dan.fetcher.outbox.domain.entity.Source.Sportmonks;
+import static cz.dan.fetcher.domain.inbox.entity.request.Source.Sportmonks;
+import static cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto.SportmonksFootballPlayerProfileDto.Data.PositionCode.midfielder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.doThrow;

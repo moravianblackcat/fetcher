@@ -1,17 +1,17 @@
 package cz.dan.fetcher.infra.fetcher;
 
-import cz.dan.fetcher.football.request.player.outbox.domain.entity.FootballPlayerRequestOutbox;
-import cz.dan.fetcher.infra.fetcher.api.football.SportmonksFootballApiClient;
-import cz.dan.fetcher.infra.fetcher.api.football.dto.SportmonksFootballPlayerProfileDto;
-import cz.dan.fetcher.infra.fetcher.api.football.dto.SportmonksFootballPlayerProfileDtoMapper;
-import cz.dan.fetcher.outbox.domain.entity.Source;
-import cz.dan.fetcher.outbox.domain.exception.ResourceNotFoundException;
-import cz.dan.fetcher.outbox.domain.fetcher.FootballPlayerFetcher;
+import cz.dan.fetcher.domain.football.request.player.outbox.entity.FootballPlayerRequestOutbox;
+import cz.dan.fetcher.domain.inbox.entity.request.Source;
+import cz.dan.fetcher.domain.outbox.exception.resource.ResourceNotFoundException;
+import cz.dan.fetcher.domain.outbox.fetcher.FootballPlayerFetcher;
+import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.SportmonksFootballApiClient;
+import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto.SportmonksFootballPlayerProfileDto;
+import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto.SportmonksFootballPlayerProfileDtoMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import static cz.dan.fetcher.outbox.domain.entity.Source.Sportmonks;
+import static cz.dan.fetcher.domain.inbox.entity.request.Source.Sportmonks;
 
 @Component
 @RequiredArgsConstructor

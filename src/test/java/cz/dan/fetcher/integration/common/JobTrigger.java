@@ -1,6 +1,6 @@
 package cz.dan.fetcher.integration.common;
 
-import cz.dan.fetcher.football.request.player.outbox.domain.job.FootballPlayerJob;
+import cz.dan.fetcher.domain.football.request.player.outbox.job.FootballPlayerJob;
 import io.cucumber.java.en.When;
 import lombok.RequiredArgsConstructor;
 

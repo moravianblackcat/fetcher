@@ -2,8 +2,8 @@ package cz.dan.fetcher.infra.kafka;
 
 import cz.dan.avro.fetcher.request.FootballPlayerRequest;
 import cz.dan.avro.fetcher.request.Source;
-import cz.dan.fetcher.football.request.player.inbox.domain.service.FootballPlayerRequestService;
-import cz.dan.fetcher.football.request.player.inbox.domain.source.FootballPlayerRequestSource;
+import cz.dan.fetcher.domain.football.request.player.inbox.service.FootballPlayerRequestService;
+import cz.dan.fetcher.domain.football.request.player.inbox.source.FootballPlayerRequestSource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
