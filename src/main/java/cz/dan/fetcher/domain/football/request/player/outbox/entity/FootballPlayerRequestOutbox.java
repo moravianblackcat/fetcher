@@ -1,5 +1,6 @@
 package cz.dan.fetcher.domain.football.request.player.outbox.entity;
 
+import cz.dan.fetcher.domain.outbox.entity.request.Outbox;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FootballPlayerRequestOutbox {
+public class FootballPlayerRequestOutbox implements Outbox {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

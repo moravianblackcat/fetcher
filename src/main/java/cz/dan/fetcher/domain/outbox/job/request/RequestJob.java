@@ -1,73 +1,57 @@
 package cz.dan.fetcher.domain.outbox.job.request;
 
 import cz.dan.fetcher.domain.inbox.entity.request.Request;
-import cz.dan.fetcher.domain.inbox.service.request.RequestService;
+import cz.dan.fetcher.domain.inbox.service.request.InboxRequestService;
+import cz.dan.fetcher.domain.outbox.entity.request.Outbox;
 import cz.dan.fetcher.domain.outbox.exception.resource.ResourceNotFoundException;
+import cz.dan.fetcher.domain.outbox.fetcher.Fetcher;
+import cz.dan.fetcher.domain.outbox.service.request.OutboxRequestService;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
-public abstract class RequestJob<E, R extends Request> {
+public abstract class RequestJob<E extends Outbox, R extends Request> {
 
-    protected final RequestService<R> requestService;
+    private final Set<Fetcher<E>> fetchers;
 
-    protected final RequestJobProperties requestJobProperties;
+    private final InboxRequestService<R> inboxRequestService;
 
-    protected final RequestJobProcessor requestJobProcessor;
+    private final OutboxRequestService<E> outboxRequestService;
 
-    protected RequestJob(RequestService<R> requestService, RequestJobProperties requestJobProperties,
+    private final RequestJobProperties requestJobProperties;
+
+    private final RequestJobProcessor requestJobProcessor;
+
+    protected RequestJob(Set<Fetcher<E>> fetchers,
+                         InboxRequestService<R> requestService,
+                         OutboxRequestService<E> outboxRequestService,
+                         RequestJobProperties requestJobProperties,
                          RequestJobProcessor requestJobProcessor) {
-        this.requestService = requestService;
+        this.fetchers = fetchers;
+        this.inboxRequestService = requestService;
+        this.outboxRequestService = outboxRequestService;
         this.requestJobProperties = requestJobProperties;
         this.requestJobProcessor = requestJobProcessor;
     }
+
+    protected abstract String getJobIdentifier();
 
     public final void run() {
         List<R> requests = getRequests();
         requests.forEach(request -> requestJobProcessor.process(() -> process(request)));
     }
 
-    protected abstract E fetch(R request) throws Exception;
-
     private List<R> getRequests() {
-        List<R> oldestScheduled = requestService.getOldestScheduled(requestJobProperties.getChunk());
+        List<R> oldestScheduled = inboxRequestService.getOldestScheduled(requestJobProperties.getChunk());
         log.info("Found {} requests for job {}.", oldestScheduled.size(), getJobIdentifier());
 
         return oldestScheduled;
-    };
-
-    protected abstract String getJobIdentifier();
-
-    protected void handleNon2xxStatusCode(R request, int httpStatusCode, String message) {
-        log.warn("{} status code returned for request ID {} in job {}.",
-                httpStatusCode, request.getId(), getJobIdentifier());
-        if (httpStatusCode == 429) {
-            handleRepeatableError(request, message);
-        } else if (httpStatusCode >= 400 && httpStatusCode < 500) {
-            handleNonRepeatableError(request, message);
-        } else {
-            handleRepeatableError(request, message);
-        }
     }
 
-    protected void handleRequestForNotExistingResource(R request) {
-        requestService.setToResourceNotFoundAndSave(request);
-    }
-
-    protected void handleRequestForError(R request, String message) {
-        request.addFailureDetail(message);
-        requestService.setToErrorAndSave(request);
-    }
-
-    protected void handleSuccessfulRequest(R request) {
-        requestService.setToCompletedAndSave(request);
-    }
-
-    protected abstract void save(E outbox);
-
-    protected void process(R request) {
+    private void process(R request) {
         try {
             E outbox = fetch(request);
             save(outbox);
@@ -81,15 +65,50 @@ public abstract class RequestJob<E, R extends Request> {
         }
     }
 
+    private E fetch(R request) throws Exception {
+        return getFetcherForRequest(request).get(request.getId());
+    }
+
+    private Fetcher<E> getFetcherForRequest(R request) {
+        return fetchers.stream()
+                .filter(fetcher -> fetcher.supports(request.getSource()))
+                .findFirst()
+                .orElseThrow();
+    }
+
+    private void save(E outbox) {
+        outboxRequestService.save(outbox);
+    }
+
+    private void handleSuccessfulRequest(R request) {
+        inboxRequestService.setToCompletedAndSave(request);
+    }
+
+    private void handleRequestForNotExistingResource(R request) {
+        inboxRequestService.setToResourceNotFoundAndSave(request);
+    }
+
+    private void handleNon2xxStatusCode(R request, int httpStatusCode, String message) {
+        log.warn("{} status code returned for request ID {} in job {}.",
+                httpStatusCode, request.getId(), getJobIdentifier());
+        if (httpStatusCode == 429) {
+            handleRepeatableError(request, message);
+        } else if (httpStatusCode >= 400 && httpStatusCode < 500) {
+            handleNonRepeatableError(request, message);
+        } else {
+            handleRepeatableError(request, message);
+        }
+    }
+
     private void handleRepeatableError(R request, String message) {
         request.addFailureDetail(message);
         if (scheduledWithEnoughRetriesLeft(request)) {
-            requestService.setToRetryAndSave(request);
+            inboxRequestService.setToRetryAndSave(request);
         }
         else if (enoughRetriesLeft(request)) {
-            requestService.save(request);
+            inboxRequestService.save(request);
         } else if (noRetriesLeft(request)) {
-            requestService.setToErrorAndSave(request);
+            inboxRequestService.setToErrorAndSave(request);
         }
     }
 
@@ -107,7 +126,12 @@ public abstract class RequestJob<E, R extends Request> {
 
     private void handleNonRepeatableError(R request, String message) {
         request.addFailureDetail(message);
-        requestService.setToErrorAndSave(request);
+        inboxRequestService.setToErrorAndSave(request);
+    }
+
+    private void handleRequestForError(R request, String message) {
+        request.addFailureDetail(message);
+        inboxRequestService.setToErrorAndSave(request);
     }
 
 }

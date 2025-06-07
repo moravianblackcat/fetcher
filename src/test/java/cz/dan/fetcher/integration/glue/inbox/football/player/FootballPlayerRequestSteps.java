@@ -49,9 +49,9 @@ public class FootballPlayerRequestSteps {
     }
 
     private List<Map<String, Object>> getActualRequests() {
-        return jdbcTemplate.query("SELECT player_id, source, state FROM football_player_request;",
+        return jdbcTemplate.query("SELECT id, source, state FROM football_player_request;",
                 (rs, rowNum) -> Map.of(
-                        "player_id", rs.getLong(1),
+                        "id", rs.getLong(1),
                         "source", rs.getString(2),
                         "state", rs.getString(3)
                 ));

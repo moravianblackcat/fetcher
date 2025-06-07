@@ -3,7 +3,7 @@ package cz.dan.fetcher.infra.fetcher;
 import cz.dan.fetcher.domain.football.request.player.outbox.entity.FootballPlayerRequestOutbox;
 import cz.dan.fetcher.domain.inbox.entity.request.Source;
 import cz.dan.fetcher.domain.outbox.exception.resource.ResourceNotFoundException;
-import cz.dan.fetcher.domain.outbox.fetcher.FootballPlayerFetcher;
+import cz.dan.fetcher.domain.outbox.fetcher.Fetcher;
 import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.SportmonksFootballApiClient;
 import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto.SportmonksFootballPlayerProfileDto;
 import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto.SportmonksFootballPlayerProfileDtoMapper;
@@ -16,7 +16,7 @@ import static cz.dan.fetcher.domain.inbox.entity.request.Source.Sportmonks;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class SportmonksFootballPlayerFetcher implements FootballPlayerFetcher {
+public class SportmonksFootballPlayerFetcher implements Fetcher {
 
     private final SportmonksFootballApiClient client;
 
@@ -28,7 +28,7 @@ public class SportmonksFootballPlayerFetcher implements FootballPlayerFetcher {
     }
 
     @Override
-    public FootballPlayerRequestOutbox getFootballPlayer(long id) throws Exception {
+    public FootballPlayerRequestOutbox get(long id) throws Exception {
         SportmonksFootballPlayerProfileDto playerProfile = getSportmonksFootballPlayerProfileDto(id);
 
         return mapper.from(playerProfile);

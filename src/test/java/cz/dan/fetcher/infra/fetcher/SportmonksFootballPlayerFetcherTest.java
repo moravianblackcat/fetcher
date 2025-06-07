@@ -62,7 +62,7 @@ class SportmonksFootballPlayerFetcherTest {
                         .build())
         );
 
-        FootballPlayerRequestOutbox result = sut.getFootballPlayer(1L);
+        FootballPlayerRequestOutbox result = sut.get(1L);
 
         assertThat(result)
                 .isNotNull()
@@ -95,7 +95,7 @@ class SportmonksFootballPlayerFetcherTest {
     void propagatesExceptionIfClientThrowsSome(Exception exception, Class<Exception> type) throws Exception {
         doThrow(exception).when(sportmonksFootballApiClient).getPlayerProfile(1L);
 
-        assertThatThrownBy(() -> sut.getFootballPlayer(1L)).isInstanceOf(type);
+        assertThatThrownBy(() -> sut.get(1L)).isInstanceOf(type);
     }
 
     private static Stream<Arguments> propagatesExceptionIfClientThrowsSome() {

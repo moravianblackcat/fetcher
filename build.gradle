@@ -114,7 +114,7 @@ task integrationTests(type: JavaExec) {
 	args = [
 			'--plugin', 'pretty',
 			'--plugin', 'html:build/reports/cucumber-report.html',
-			'--glue', 'cz.dan.consumer.integration',
+			'--glue', 'cz.dan.fetcher.integration',
 			'src/test/resources/features'
 	]
 }

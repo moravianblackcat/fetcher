@@ -20,7 +20,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class FootballPlayerRequestServiceImplTest {
+class FootballPlayerInboxRequestServiceImplTest {
 
     @Spy
     private final FootballPlayerRequestMapper mapper = new FootballPlayerRequestMapperImpl();
@@ -29,7 +29,7 @@ class FootballPlayerRequestServiceImplTest {
     private FootballPlayerRequestRepository repository;
 
     @InjectMocks
-    private FootballPlayerRequestServiceImpl sut;
+    private FootballPlayerInboxRequestServiceImpl sut;
 
     @Captor
     private ArgumentCaptor<List<FootballPlayerRequest>> footballPlayerRequestsCaptor;

@@ -3,11 +3,11 @@ package cz.dan.fetcher.domain.football.request.player.outbox.job;
 import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequest;
 import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequest.State;
 import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequestFailureDetail;
-import cz.dan.fetcher.domain.football.request.player.inbox.service.FootballPlayerRequestService;
+import cz.dan.fetcher.domain.football.request.player.inbox.service.FootballPlayerInboxRequestService;
 import cz.dan.fetcher.domain.football.request.player.outbox.entity.FootballPlayerRequestOutbox;
 import cz.dan.fetcher.domain.football.request.player.outbox.service.FootballPlayerRequestOutboxService;
 import cz.dan.fetcher.domain.outbox.exception.resource.ResourceNotFoundException;
-import cz.dan.fetcher.domain.outbox.fetcher.FootballPlayerFetcher;
+import cz.dan.fetcher.domain.outbox.fetcher.Fetcher;
 import cz.dan.fetcher.domain.outbox.job.request.RequestJobProcessor;
 import feign.FeignException;
 import feign.FeignException.BadRequest;
@@ -47,10 +47,10 @@ class FootballPlayerJobTest {
     }
 
     @Mock
-    private FootballPlayerFetcher footballPlayerFetcher;
+    private Fetcher<FootballPlayerRequestOutbox> fetcher;
 
     @Mock
-    private FootballPlayerRequestService footballPlayerRequestService;
+    private FootballPlayerInboxRequestService footballPlayerInboxRequestService;
 
     @Mock
     private FootballPlayerRequestOutboxService footballPlayerRequestOutboxService;
@@ -60,19 +60,19 @@ class FootballPlayerJobTest {
 
     @BeforeEach
     void setUp() {
-        when(footballPlayerFetcher.supports(any())).thenReturn(true);
+        when(fetcher.supports(any())).thenReturn(true);
     }
 
     @ParameterizedTest
     @EnumSource(value = State.class, names = {"SCHEDULED", "RETRY"})
     void setsRequestToCompletedAndSavesToOutbox(State state) throws Exception {
         stubFootballPlayerRequestForProcessing(0L, state, new ArrayList<>());
-        when(footballPlayerFetcher.getFootballPlayer(0L)).thenReturn(FootballPlayerRequestOutbox.builder().build());
+        when(fetcher.get(0L)).thenReturn(FootballPlayerRequestOutbox.builder().build());
 
         FootballPlayerJob sut = getSut(0);
         sut.run();
 
-        verify(footballPlayerRequestService, times(1)).setToCompletedAndSave(requestCaptor.capture());
+        verify(footballPlayerInboxRequestService, times(1)).setToCompletedAndSave(requestCaptor.capture());
         verify(footballPlayerRequestOutboxService, times(1)).save(any());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, state);
@@ -82,12 +82,12 @@ class FootballPlayerJobTest {
     @EnumSource(value = State.class, names = {"SCHEDULED", "RETRY"})
     void setsRequestToResourceNotFoundIfResourceIsNotFound(State state) throws Exception {
         stubFootballPlayerRequestForProcessing(0L, state, new ArrayList<>());
-        doThrow(new ResourceNotFoundException()).when(footballPlayerFetcher).getFootballPlayer(0L);
+        doThrow(new ResourceNotFoundException()).when(fetcher).get(0L);
 
         FootballPlayerJob sut = getSut(0);
         sut.run();
 
-        verify(footballPlayerRequestService, times(1)).setToResourceNotFoundAndSave(requestCaptor.capture());
+        verify(footballPlayerInboxRequestService, times(1)).setToResourceNotFoundAndSave(requestCaptor.capture());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, state);
     }
@@ -103,7 +103,7 @@ class FootballPlayerJobTest {
         FootballPlayerJob sut = getSut(maxRetries);
         sut.run();
 
-        verify(footballPlayerRequestService, times(1)).setToErrorAndSave(requestCaptor.capture());
+        verify(footballPlayerInboxRequestService, times(1)).setToErrorAndSave(requestCaptor.capture());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, state);
         assertReasonOfFirstFailure(savedRequest, "Bad Request");
@@ -128,7 +128,7 @@ class FootballPlayerJobTest {
         FootballPlayerJob sut = getSut(2);
         sut.run();
 
-        verify(footballPlayerRequestService, times(1)).setToRetryAndSave(requestCaptor.capture());
+        verify(footballPlayerInboxRequestService, times(1)).setToRetryAndSave(requestCaptor.capture());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, SCHEDULED);
         assertReasonOfFirstFailure(savedRequest, expectedReason);
@@ -148,7 +148,7 @@ class FootballPlayerJobTest {
         FootballPlayerJob sut = getSut(3);
         sut.run();
 
-        verify(footballPlayerRequestService, times(1)).save(requestCaptor.capture());
+        verify(footballPlayerInboxRequestService, times(1)).save(requestCaptor.capture());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, RETRY);
         assertReasonOfFirstFailure(savedRequest, "firstReason");
@@ -167,7 +167,7 @@ class FootballPlayerJobTest {
         FootballPlayerJob sut = getSut(maxRetries);
         sut.run();
 
-        verify(footballPlayerRequestService, times(1)).setToErrorAndSave(requestCaptor.capture());
+        verify(footballPlayerInboxRequestService, times(1)).setToErrorAndSave(requestCaptor.capture());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, state);
     }
@@ -188,12 +188,12 @@ class FootballPlayerJobTest {
     void setsRequestToErrorForGenericErrorRegardlessOfPossibleRetries(int maxRetries, State state)
             throws Exception {
         stubFootballPlayerRequestForProcessing(7L, state, new ArrayList<>());
-        doThrow(new Exception("Who knows")).when(footballPlayerFetcher).getFootballPlayer(7L);
+        doThrow(new Exception("Who knows")).when(fetcher).get(7L);
 
         FootballPlayerJob sut = getSut(maxRetries);
         sut.run();
 
-        verify(footballPlayerRequestService, times(1)).setToErrorAndSave(requestCaptor.capture());
+        verify(footballPlayerInboxRequestService, times(1)).setToErrorAndSave(requestCaptor.capture());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, state);
         assertReasonOfFirstFailure(savedRequest, "Who knows");
@@ -224,21 +224,21 @@ class FootballPlayerJobTest {
                 .state(state)
                 .failureDetails(failureDetails)
                 .build();
-        when(footballPlayerRequestService.getOldestScheduled(CHUNK_VALUE)).thenReturn(List.of(request));
+        when(footballPlayerInboxRequestService.getOldestScheduled(CHUNK_VALUE)).thenReturn(List.of(request));
     }
 
     private void throwHttpErrorWhenObtainingPlayer(long playerId, FeignException error) throws Exception {
         doThrow(error)
-                .when(footballPlayerFetcher)
-                .getFootballPlayer(playerId);
+                .when(fetcher)
+                .get(playerId);
     }
 
     private FootballPlayerJob getSut(int maxRetriesProperty) {
         FootballPlayerRequestJobProperties properties = new FootballPlayerRequestJobProperties();
         properties.setChunk(CHUNK_VALUE);
         properties.setMaxRetries(maxRetriesProperty);
-        return new FootballPlayerJob(footballPlayerRequestService, properties, new RequestJobProcessor(),
-                Set.of(footballPlayerFetcher), footballPlayerRequestOutboxService);
+
+        return new FootballPlayerJob(Set.of(fetcher), footballPlayerInboxRequestService, footballPlayerRequestOutboxService, properties, new RequestJobProcessor());
     }
 
     private void assertState(FootballPlayerRequest savedRequest, State state) {

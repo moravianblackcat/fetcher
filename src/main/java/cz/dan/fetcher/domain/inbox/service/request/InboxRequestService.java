@@ -4,7 +4,7 @@ import cz.dan.fetcher.domain.inbox.entity.request.Request;
 
 import java.util.List;
 
-public interface RequestService<T extends Request> {
+public interface InboxRequestService<T extends Request> {
 
     List<T> getOldestScheduled(int number);
 

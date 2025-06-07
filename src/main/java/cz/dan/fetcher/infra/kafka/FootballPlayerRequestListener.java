@@ -2,7 +2,7 @@ package cz.dan.fetcher.infra.kafka;
 
 import cz.dan.avro.fetcher.request.FootballPlayerRequest;
 import cz.dan.avro.fetcher.request.Source;
-import cz.dan.fetcher.domain.football.request.player.inbox.service.FootballPlayerRequestService;
+import cz.dan.fetcher.domain.football.request.player.inbox.service.FootballPlayerInboxRequestService;
 import cz.dan.fetcher.domain.football.request.player.inbox.source.FootballPlayerRequestSource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FootballPlayerRequestListener {
 
-    private final FootballPlayerRequestService service;
+    private final FootballPlayerInboxRequestService service;
 
     @KafkaListener(topics = "fetcher.request.football.player")
     public void handle(@Payload FootballPlayerRequest request) {

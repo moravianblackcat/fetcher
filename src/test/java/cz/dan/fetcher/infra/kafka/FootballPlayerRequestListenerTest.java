@@ -2,7 +2,7 @@ package cz.dan.fetcher.infra.kafka;
 
 import cz.dan.avro.fetcher.request.FootballPlayerRequest;
 import cz.dan.avro.fetcher.request.Source;
-import cz.dan.fetcher.domain.football.request.player.inbox.service.FootballPlayerRequestService;
+import cz.dan.fetcher.domain.football.request.player.inbox.service.FootballPlayerInboxRequestService;
 import cz.dan.fetcher.domain.football.request.player.inbox.source.FootballPlayerRequestSource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 class FootballPlayerRequestListenerTest {
 
     @Mock
-    private FootballPlayerRequestService service;
+    private FootballPlayerInboxRequestService service;
 
     @InjectMocks
     private FootballPlayerRequestListener sut;

@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
-public class FootballPlayerRequestServiceImpl implements FootballPlayerRequestService {
+public class FootballPlayerInboxRequestServiceImpl implements FootballPlayerInboxRequestService {
 
     private final FootballPlayerRequestMapper mapper;
 
