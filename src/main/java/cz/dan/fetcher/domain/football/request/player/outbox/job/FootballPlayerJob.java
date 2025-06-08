@@ -25,9 +25,4 @@ public class FootballPlayerJob extends RequestJob<FootballPlayerRequestOutbox, F
                 properties, requestJobProcessor);
     }
 
-    @Override
-    protected String getJobIdentifier() {
-        return "Football Player";
-    }
-
 }

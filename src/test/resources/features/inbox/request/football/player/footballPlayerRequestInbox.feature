@@ -1,5 +1,5 @@
 @football
-Feature: Football player request
+Feature: Football player request inbox
   
   Scenario: Request for not-yet requested players
 	When The following list of football players is requested to be fetched from Sportmonks:

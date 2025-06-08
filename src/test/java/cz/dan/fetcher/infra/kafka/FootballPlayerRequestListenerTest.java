@@ -1,7 +1,7 @@
 package cz.dan.fetcher.infra.kafka;
 
+import cz.dan.avro.fetcher.Source;
 import cz.dan.avro.fetcher.request.FootballPlayerRequest;
-import cz.dan.avro.fetcher.request.Source;
 import cz.dan.fetcher.domain.football.request.player.inbox.service.FootballPlayerInboxRequestService;
 import cz.dan.fetcher.domain.football.request.player.inbox.source.FootballPlayerRequestSource;
 import org.junit.jupiter.api.Test;

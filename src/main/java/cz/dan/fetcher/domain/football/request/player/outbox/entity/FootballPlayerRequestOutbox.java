@@ -23,7 +23,7 @@ public class FootballPlayerRequestOutbox implements Outbox {
     @GeneratedValue(strategy = IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "source_id")
     private long sourceId;
 
     @Column(nullable = false, length = 3)
@@ -33,19 +33,19 @@ public class FootballPlayerRequestOutbox implements Outbox {
     @Enumerated(STRING)
     private Position position;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "first_name")
     private String firstName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "last_name")
     private String lastName;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "display_name")
     private String displayName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "date_of_birth")
     private LocalDate dateOfBirth;
 
     @Column(nullable = false)

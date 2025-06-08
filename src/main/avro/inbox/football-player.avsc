@@ -12,11 +12,7 @@
     },
     {
       "name": "source",
-      "type": {
-        "type": "enum",
-        "name": "Source",
-        "symbols": ["Sportmonks"]
-      }
+      "type": "cz.dan.avro.fetcher.Source"
     }
   ]
 }

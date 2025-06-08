@@ -1,0 +1,24 @@
+[{
+        "id": 1,
+        "sourceId": 556,
+        "nationality": "CZE",
+        "position": "midfielder",
+        "firstName": "Tomáš",
+        "lastName": "Rosický",
+        "name": "Tomáš Rosický",
+        "displayName": "Tomáš Rosický",
+        "dateOfBirth": "1980-10-04",
+        "source": "Sportmonks"
+    }, {
+        "id": 2,
+        "sourceId": 167,
+        "nationality": "ENG",
+        "position": "defender",
+        "firstName": "Titus Malachi",
+        "lastName": "Bramble",
+        "name": "Titus Malachi Bramble",
+        "displayName": "Titus Bramble",
+        "dateOfBirth": "1981-07-21",
+        "source": "Sportmonks"
+    }
+]

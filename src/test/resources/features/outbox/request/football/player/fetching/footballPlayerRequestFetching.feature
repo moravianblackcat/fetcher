@@ -3,7 +3,9 @@ Feature: Fetching data for football player request
   
   Scenario: Obtaining football player profile
 	Given Football player request for player ID 154421 from Sportmonks exists as SCHEDULED
-	And Football player request for player ID 154441 from Sportmonks exists as SCHEDULED
+	And Football player request for player ID 154441 from Sportmonks exists as RETRY
+	And Football player request for player ID 154461 from Sportmonks exists as ERROR
+	And Football player request for player ID 154481 from Sportmonks exists as RESOURCE_NOT_FOUND
 	And Sportmonks API returns response defined in football/player/154421.json for the /v3/football/players/154421 endpoint with those inclusions:
 	  | nationality |
 	  | position    |

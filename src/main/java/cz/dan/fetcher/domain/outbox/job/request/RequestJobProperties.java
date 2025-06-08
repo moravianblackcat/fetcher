@@ -1,6 +1,8 @@
 package cz.dan.fetcher.domain.outbox.job.request;
 
-public interface RequestJobProperties {
+import cz.dan.fetcher.domain.job.JobProperties;
+
+public interface RequestJobProperties extends JobProperties {
 
     int getChunk();
 

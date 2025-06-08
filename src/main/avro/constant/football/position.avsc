@@ -1,0 +1,6 @@
+{
+  "type": "enum",
+  "name": "FootballPosition",
+  "namespace": "cz.dan.avro.fetcher",
+  "symbols": ["goalkeeper", "defender", "midfielder", "forward"]
+}

@@ -16,11 +16,15 @@ public final class AwaitHelper {
         throw new UnsupportedOperationException();
     }
 
+    public static void assertNoRows(int timeoutInSeconds, Supplier<Integer> noOfRowsSupplier) {
+        assertInSeconds(timeoutInSeconds, () -> assertThat(noOfRowsSupplier.get()).isNotNull().isZero());
+    }
+
     public static void assertRows(int timeoutInSeconds, Supplier<List<Map<String, Object>>> supplierOfActualRows,
                                   List<Map<String, Object>> expectedRows) {
         assertInSeconds(timeoutInSeconds, () -> {
             List<Map<String, Object>> actualRows = supplierOfActualRows.get();
-            assertThat(actualRows).isNotNull().containsAll(expectedRows);
+            assertThat(actualRows).isNotNull().containsOnlyOnceElementsOf(expectedRows);
         });
     }
 

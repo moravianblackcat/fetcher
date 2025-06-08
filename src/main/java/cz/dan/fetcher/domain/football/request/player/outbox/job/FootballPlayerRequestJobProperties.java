@@ -1,6 +1,5 @@
 package cz.dan.fetcher.domain.football.request.player.outbox.job;
 
-
 import cz.dan.fetcher.domain.outbox.job.request.RequestJobProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -9,6 +8,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class FootballPlayerRequestJobProperties implements RequestJobProperties {
     int chunk;
+
+    String jobIdentifier;
 
     int maxRetries;
 }

@@ -10,7 +10,8 @@ import java.util.List;
 @Repository
 public interface FootballPlayerRequestRepository extends CrudRepository<FootballPlayerRequest, FootballPlayerRequestId> {
 
-    @Query(value = "SELECT * FROM football_player_request WHERE state = 'SCHEDULED' ORDER BY created_at LIMIT ?",
+    @Query(value = "SELECT * FROM football_player_request WHERE state = 'SCHEDULED' OR state = 'RETRY'"
+            + " ORDER BY created_at LIMIT ?",
             nativeQuery = true)
     List<FootballPlayerRequest> findOldestScheduled(int limit);
 

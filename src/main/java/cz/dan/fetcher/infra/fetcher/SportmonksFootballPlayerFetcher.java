@@ -16,7 +16,7 @@ import static cz.dan.fetcher.domain.inbox.entity.request.Source.Sportmonks;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class SportmonksFootballPlayerFetcher implements Fetcher {
+public class SportmonksFootballPlayerFetcher implements Fetcher<FootballPlayerRequestOutbox> {
 
     private final SportmonksFootballApiClient client;
 

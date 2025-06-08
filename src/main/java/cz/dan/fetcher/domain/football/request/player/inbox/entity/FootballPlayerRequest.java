@@ -3,11 +3,8 @@ package cz.dan.fetcher.domain.football.request.player.inbox.entity;
 import cz.dan.fetcher.domain.inbox.entity.request.Request;
 import cz.dan.fetcher.domain.inbox.entity.request.Source;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.*;
 import lombok.Builder.Default;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
@@ -78,6 +75,7 @@ public class FootballPlayerRequest implements Request {
     @Embeddable
     @NoArgsConstructor
     @AllArgsConstructor
+    @EqualsAndHashCode
     public static class FootballPlayerRequestId implements Serializable {
         private Long id;
 

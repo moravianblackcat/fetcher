@@ -1,7 +1,7 @@
 package cz.dan.fetcher.integration.glue.inbox.football.player;
 
+import cz.dan.avro.fetcher.Source;
 import cz.dan.avro.fetcher.request.FootballPlayerRequest;
-import cz.dan.avro.fetcher.request.Source;
 import cz.dan.fetcher.integration.fixture.request.football.player.FootballPlayerRequestFixture;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -17,9 +17,9 @@ import java.util.Map;
 import static cz.dan.fetcher.integration.await.AwaitHelper.assertRows;
 
 @RequiredArgsConstructor
-public class FootballPlayerRequestSteps {
+public class FootballPlayerRequestInboxSteps {
 
-    private static final String FOOTBALL_PLAYER_REQUEST_TOPIC_NAME = "fetcher.request.football.player";
+    private static final String FOOTBALL_PLAYER_REQUEST_INBOX_TOPIC_NAME = "fetcher.request.football.player";
 
     private final FootballPlayerRequestFixture fixture;
 
@@ -58,7 +58,7 @@ public class FootballPlayerRequestSteps {
     }
 
     private void sendFootballPlayerRequest(FootballPlayerRequest request) {
-        kafkaTemplate.send(new ProducerRecord<>(FOOTBALL_PLAYER_REQUEST_TOPIC_NAME, request));
+        kafkaTemplate.send(new ProducerRecord<>(FOOTBALL_PLAYER_REQUEST_INBOX_TOPIC_NAME, request));
     }
 
 }

@@ -37,8 +37,6 @@ public abstract class RequestJob<E extends Outbox, R extends Request> {
         this.requestJobProcessor = requestJobProcessor;
     }
 
-    protected abstract String getJobIdentifier();
-
     public final void run() {
         List<R> requests = getRequests();
         requests.forEach(request -> requestJobProcessor.process(() -> process(request)));
@@ -46,7 +44,7 @@ public abstract class RequestJob<E extends Outbox, R extends Request> {
 
     private List<R> getRequests() {
         List<R> oldestScheduled = inboxRequestService.getOldestScheduled(requestJobProperties.getChunk());
-        log.info("Found {} requests for job {}.", oldestScheduled.size(), getJobIdentifier());
+        log.info("Found {} requests for job {}.", oldestScheduled.size(), requestJobProperties.getJobIdentifier());
 
         return oldestScheduled;
     }
@@ -90,7 +88,7 @@ public abstract class RequestJob<E extends Outbox, R extends Request> {
 
     private void handleNon2xxStatusCode(R request, int httpStatusCode, String message) {
         log.warn("{} status code returned for request ID {} in job {}.",
-                httpStatusCode, request.getId(), getJobIdentifier());
+                httpStatusCode, request.getId(), requestJobProperties.getJobIdentifier());
         if (httpStatusCode == 429) {
             handleRepeatableError(request, message);
         } else if (httpStatusCode >= 400 && httpStatusCode < 500) {
