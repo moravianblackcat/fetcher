@@ -1,4 +1,4 @@
-package cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto;
+package cz.dan.fetcher.infra.fetcher.api.sportmonks.football.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

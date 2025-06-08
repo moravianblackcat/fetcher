@@ -1,13 +1,13 @@
-package cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto;
+package cz.dan.fetcher.infra.fetcher.api.sportmonks.football.dto;
 
 import cz.dan.fetcher.domain.football.request.player.outbox.entity.FootballPlayerRequestOutbox;
-import cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto.SportmonksFootballPlayerProfileDto.Data.Position;
+import cz.dan.fetcher.infra.fetcher.api.sportmonks.football.dto.SportmonksFootballPlayerProfileDto.Data.Position;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 
 import static cz.dan.fetcher.domain.football.request.player.outbox.entity.FootballPlayerRequestOutbox.Position.forward;
-import static cz.dan.fetcher.infra.fetcher.api.football.sportmonks.dto.SportmonksFootballPlayerProfileDto.Data.PositionCode.attacker;
+import static cz.dan.fetcher.infra.fetcher.api.sportmonks.football.dto.SportmonksFootballPlayerProfileDto.Data.PositionCode.attacker;
 import static org.mapstruct.ReportingPolicy.IGNORE;
 
 @Mapper(unmappedTargetPolicy = IGNORE)

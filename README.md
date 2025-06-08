@@ -61,6 +61,8 @@ By subclassing, you ensure that the new sender adheres to the established struct
 - **Docker**: Required for running integration tests.
 
 ## Build and Run
+### Configure
+Create `src/main/resources/token.properties` file with `sportmonks.api.token` equal to Sportmonks API token.
 ### Build the Project
 Use the following command from the project root to clean and build the project:
 ```shell
