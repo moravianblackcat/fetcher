@@ -2,7 +2,7 @@ package cz.dan.fetcher.domain.football.request.player.inbox.entity.mapper;
 
 import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequest;
 import cz.dan.fetcher.domain.football.request.player.inbox.source.FootballPlayerRequestSource;
-import cz.dan.fetcher.domain.inbox.entity.request.Source;
+import cz.dan.fetcher.domain.source.Source;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

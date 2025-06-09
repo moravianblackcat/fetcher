@@ -13,10 +13,14 @@ Feature: Fetching data for football player request
 	  | nationality |
 	  | position    |
 	When footballPlayer job is triggered
-	Then 2s Those football players are persisted to outbox:
-	  | id | source     | source_id | nationality | position | first_name   | last_name | name            | display_name     | date_of_birth |
-	  | 1  | Sportmonks | 154421    | NOR         | forward  | Erling Braut | Haaland   | Erling Håland   | Erling Haaland   | 2000-07-21    |
-	  | 2  | Sportmonks | 154441    | POL         | defender | Batosz       | Rymaniak  | Batosz Rymaniak | Bartosz Rymaniak | 1989-11-13    |
+	Then 2s Those persons are saved:
+	  | id | source_id | source     |
+	  | 1  | 154421    | Sportmonks |
+	  | 2  | 154441    | Sportmonks |
+	And 2s Those football players are persisted to outbox:
+	  | id | nationality | position | first_name   | last_name | name            | display_name     | date_of_birth |
+	  | 1  | NOR         | forward  | Erling Braut | Haaland   | Erling Håland   | Erling Haaland   | 2000-07-21    |
+	  | 2  | POL         | defender | Batosz       | Rymaniak  | Batosz Rymaniak | Bartosz Rymaniak | 1989-11-13    |
 	And 2s Those football player requests are marked as COMPLETED:
 	  | id     | source     |
 	  | 154421 | Sportmonks |
@@ -28,7 +32,8 @@ Feature: Fetching data for football player request
 	  | nationality |
 	  | position    |
 	When footballPlayer job is triggered
-	Then 2s Those football player requests are marked as RETRY:
+	Then 2s No persons are saved
+	And 2s Those football player requests are marked as RETRY:
 	  | id     | source     |
 	  | 154421 | Sportmonks |
 	And 2s The football player request for 154421 has '<failureContent>' in failure reason
@@ -43,7 +48,8 @@ Feature: Fetching data for football player request
 	  | nationality |
 	  | position    |
 	When footballPlayer job is triggered
-	Then 2s Those football player requests are marked as ERROR:
+	Then 2s No persons are saved
+	And 2s Those football player requests are marked as ERROR:
 	  | id     | source     |
 	  | 154421 | Sportmonks |
 	And 2s The football player request for 154421 has '[400 Bad Request] during [GET] to' in failure reason
@@ -54,6 +60,7 @@ Feature: Fetching data for football player request
 	  | nationality |
 	  | position    |
 	When footballPlayer job is triggered
-	Then 2s Those football player requests are marked as RESOURCE_NOT_FOUND:
+	Then 2s No persons are saved
+	And 2s Those football player requests are marked as RESOURCE_NOT_FOUND:
 	  | id | source     |
 	  | 15 | Sportmonks |

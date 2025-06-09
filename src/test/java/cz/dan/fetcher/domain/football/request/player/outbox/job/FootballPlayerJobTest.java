@@ -9,12 +9,14 @@ import cz.dan.fetcher.domain.football.request.player.outbox.service.FootballPlay
 import cz.dan.fetcher.domain.outbox.exception.resource.ResourceNotFoundException;
 import cz.dan.fetcher.domain.outbox.fetcher.Fetcher;
 import cz.dan.fetcher.domain.outbox.job.request.RequestJobProcessor;
+import cz.dan.fetcher.domain.person.service.PersonService;
 import feign.FeignException;
 import feign.FeignException.BadRequest;
 import feign.FeignException.InternalServerError;
 import feign.FeignException.TooManyRequests;
 import feign.Request;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -55,8 +57,14 @@ class FootballPlayerJobTest {
     @Mock
     private FootballPlayerRequestOutboxService footballPlayerRequestOutboxService;
 
+    @Mock
+    private PersonService personService;
+
     @Captor
     private ArgumentCaptor<FootballPlayerRequest> requestCaptor;
+
+    @Captor
+    private ArgumentCaptor<FootballPlayerRequestOutbox> outboxCaptor;
 
     @BeforeEach
     void setUp() {
@@ -76,6 +84,21 @@ class FootballPlayerJobTest {
         verify(footballPlayerRequestOutboxService, times(1)).save(any());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, state);
+    }
+
+    @Test
+    void outboxIsSavedWithIdForPerson() throws Exception {
+        stubFootballPlayerRequestForProcessing(0L, SCHEDULED, new ArrayList<>());
+        when(fetcher.get(0L)).thenReturn(FootballPlayerRequestOutbox.builder().build());
+        when(personService.save(any())).thenReturn(15L);
+
+        FootballPlayerJob sut = getSut(0);
+        sut.run();
+
+        verify(footballPlayerRequestOutboxService, times(1)).save(outboxCaptor.capture());
+        assertThat(outboxCaptor.getValue())
+                .isNotNull()
+                .hasFieldOrPropertyWithValue("id", 15L);
     }
 
     @ParameterizedTest
@@ -238,7 +261,8 @@ class FootballPlayerJobTest {
         properties.setChunk(CHUNK_VALUE);
         properties.setMaxRetries(maxRetriesProperty);
 
-        return new FootballPlayerJob(Set.of(fetcher), footballPlayerInboxRequestService, footballPlayerRequestOutboxService, properties, new RequestJobProcessor());
+        return new FootballPlayerJob(Set.of(fetcher), footballPlayerInboxRequestService,
+                footballPlayerRequestOutboxService, personService, properties, new RequestJobProcessor());
     }
 
     private void assertState(FootballPlayerRequest savedRequest, State state) {

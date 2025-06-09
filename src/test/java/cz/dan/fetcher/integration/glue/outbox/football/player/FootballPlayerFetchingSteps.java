@@ -41,19 +41,17 @@ public class FootballPlayerFetchingSteps {
     }
 
     private List<Map<String, Object>> getPersistedPlayers() {
-        return jdbcTemplate.query("SELECT id, source, source_id, nationality, position, first_name, last_name, "
+        return jdbcTemplate.query("SELECT id, nationality, position, first_name, last_name, "
                         + "name, display_name, date_of_birth FROM football_player_request_outbox",
                 (rs, rowNum) -> Map.of(
                         "id", rs.getLong(1),
-                        "source", rs.getString(2),
-                        "source_id", rs.getLong(3),
-                        "nationality", rs.getString(4),
-                        "position", rs.getString(5),
-                        "first_name", rs.getString(6),
-                        "last_name", rs.getString(7),
-                        "name", rs.getString(8),
-                        "display_name", rs.getString(9),
-                        "date_of_birth", rs.getDate(10).toLocalDate()
+                        "nationality", rs.getString(2),
+                        "position", rs.getString(3),
+                        "first_name", rs.getString(4),
+                        "last_name", rs.getString(5),
+                        "name", rs.getString(6),
+                        "display_name", rs.getString(7),
+                        "date_of_birth", rs.getDate(8).toLocalDate()
                 ));
     }
 

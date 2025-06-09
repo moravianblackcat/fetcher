@@ -7,6 +7,7 @@ import cz.dan.fetcher.domain.football.request.player.outbox.service.FootballPlay
 import cz.dan.fetcher.domain.outbox.fetcher.Fetcher;
 import cz.dan.fetcher.domain.outbox.job.request.RequestJob;
 import cz.dan.fetcher.domain.outbox.job.request.RequestJobProcessor;
+import cz.dan.fetcher.domain.person.service.PersonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -19,10 +20,11 @@ public class FootballPlayerJob extends RequestJob<FootballPlayerRequestOutbox, F
     public FootballPlayerJob(Set<Fetcher<FootballPlayerRequestOutbox>> fetchers,
                              FootballPlayerInboxRequestService footballPlayerInboxRequestService,
                              FootballPlayerRequestOutboxService footballPlayerRequestOutboxService,
+                             PersonService personService,
                              FootballPlayerRequestJobProperties properties,
                              RequestJobProcessor requestJobProcessor) {
         super(fetchers, footballPlayerInboxRequestService, footballPlayerRequestOutboxService,
-                properties, requestJobProcessor);
+                personService, properties, requestJobProcessor);
     }
 
 }

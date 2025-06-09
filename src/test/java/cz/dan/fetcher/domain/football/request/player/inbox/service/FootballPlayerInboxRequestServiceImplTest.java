@@ -5,7 +5,7 @@ import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayer
 import cz.dan.fetcher.domain.football.request.player.inbox.entity.mapper.FootballPlayerRequestMapper;
 import cz.dan.fetcher.domain.football.request.player.inbox.entity.mapper.FootballPlayerRequestMapperImpl;
 import cz.dan.fetcher.domain.football.request.player.inbox.source.FootballPlayerRequestSource;
-import cz.dan.fetcher.domain.inbox.entity.request.Source;
+import cz.dan.fetcher.domain.source.Source;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

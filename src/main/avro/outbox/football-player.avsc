@@ -8,10 +8,6 @@
       "type": "long"
     },
     {
-      "name": "sourceId",
-      "type": "long"
-    },
-    {
       "name": "nationality",
       "type": "string"
     },
@@ -41,10 +37,6 @@
         "type": "int",
         "logicalType": "date"
       }
-    },
-    {
-      "name": "source",
-      "type": "cz.dan.avro.fetcher.Source"
     }
   ]
 }

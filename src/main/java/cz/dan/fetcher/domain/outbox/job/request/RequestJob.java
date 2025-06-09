@@ -6,6 +6,8 @@ import cz.dan.fetcher.domain.outbox.entity.request.Outbox;
 import cz.dan.fetcher.domain.outbox.exception.resource.ResourceNotFoundException;
 import cz.dan.fetcher.domain.outbox.fetcher.Fetcher;
 import cz.dan.fetcher.domain.outbox.service.request.OutboxRequestService;
+import cz.dan.fetcher.domain.person.entity.Person;
+import cz.dan.fetcher.domain.person.service.PersonService;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,18 +23,21 @@ public abstract class RequestJob<E extends Outbox, R extends Request> {
 
     private final OutboxRequestService<E> outboxRequestService;
 
+    private final PersonService personService;
+
     private final RequestJobProperties requestJobProperties;
 
     private final RequestJobProcessor requestJobProcessor;
 
     protected RequestJob(Set<Fetcher<E>> fetchers,
                          InboxRequestService<R> requestService,
-                         OutboxRequestService<E> outboxRequestService,
+                         OutboxRequestService<E> outboxRequestService, PersonService personService,
                          RequestJobProperties requestJobProperties,
                          RequestJobProcessor requestJobProcessor) {
         this.fetchers = fetchers;
         this.inboxRequestService = requestService;
         this.outboxRequestService = outboxRequestService;
+        this.personService = personService;
         this.requestJobProperties = requestJobProperties;
         this.requestJobProcessor = requestJobProcessor;
     }
@@ -52,7 +57,8 @@ public abstract class RequestJob<E extends Outbox, R extends Request> {
     private void process(R request) {
         try {
             E outbox = fetch(request);
-            save(outbox);
+            Long savedPersonId = savePerson(request);
+            save(outbox, savedPersonId);
             handleSuccessfulRequest(request);
         } catch (ResourceNotFoundException e) {
             handleRequestForNotExistingResource(request);
@@ -74,7 +80,12 @@ public abstract class RequestJob<E extends Outbox, R extends Request> {
                 .orElseThrow();
     }
 
-    private void save(E outbox) {
+    private Long savePerson(R request) {
+        return personService.save(Person.builder().source(request.getSource()).sourceId(request.getId()).build());
+    }
+
+    private void save(E outbox, Long personId) {
+        outbox.setId(personId);
         outboxRequestService.save(outbox);
     }
 

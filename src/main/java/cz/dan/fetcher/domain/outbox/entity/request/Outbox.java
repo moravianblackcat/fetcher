@@ -4,4 +4,6 @@ public interface Outbox {
 
     long getId();
 
+    void setId(Long id);
+
 }

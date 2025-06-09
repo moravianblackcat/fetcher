@@ -13,7 +13,6 @@ import static org.mapstruct.ReportingPolicy.IGNORE;
 @Mapper(unmappedTargetPolicy = IGNORE)
 public interface SportmonksFootballPlayerProfileDtoMapper {
 
-    @Mapping(source = "data.id", target = "sourceId")
     @Mapping(source = "data.nationality.iso3", target = "nationality")
     @Mapping(source = "data.position", target = "position", qualifiedByName = "mapPosition")
     @Mapping(source = "data.firstName", target = "firstName")
@@ -21,7 +20,6 @@ public interface SportmonksFootballPlayerProfileDtoMapper {
     @Mapping(source = "data.name", target = "name")
     @Mapping(source = "data.displayName", target = "displayName")
     @Mapping(source = "data.dateOfBirth", target = "dateOfBirth")
-    @Mapping(constant = "Sportmonks", target = "source")
     FootballPlayerRequestOutbox from(SportmonksFootballPlayerProfileDto dto);
 
     @Named("mapPosition")

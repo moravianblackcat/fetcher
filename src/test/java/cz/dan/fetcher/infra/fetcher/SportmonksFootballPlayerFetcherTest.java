@@ -23,7 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDate;
 import java.util.stream.Stream;
 
-import static cz.dan.fetcher.domain.inbox.entity.request.Source.Sportmonks;
+import static cz.dan.fetcher.domain.source.Source.Sportmonks;
 import static cz.dan.fetcher.infra.fetcher.api.sportmonks.football.dto.SportmonksFootballPlayerProfileDto.Data.PositionCode.midfielder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -69,25 +69,21 @@ class SportmonksFootballPlayerFetcherTest {
                 .isNotNull()
                 .hasNoNullFieldsOrPropertiesExcept("id")
                 .extracting(
-                        FootballPlayerRequestOutbox::getSourceId,
                         FootballPlayerRequestOutbox::getNationality,
                         FootballPlayerRequestOutbox::getPosition,
                         FootballPlayerRequestOutbox::getFirstName,
                         FootballPlayerRequestOutbox::getLastName,
                         FootballPlayerRequestOutbox::getName,
                         FootballPlayerRequestOutbox::getDisplayName,
-                        FootballPlayerRequestOutbox::getDateOfBirth,
-                        FootballPlayerRequestOutbox::getSource
+                        FootballPlayerRequestOutbox::getDateOfBirth
                 ).containsExactly(
-                        1L,
                         "CZE",
                         FootballPlayerRequestOutbox.Position.midfielder,
                         "Karel",
                         "Poborský",
                         "Karel Poborský",
                         "Karel Poborsky",
-                        LocalDate.of(1972, 3, 30),
-                        FootballPlayerRequestOutbox.Source.Sportmonks
+                        LocalDate.of(1972, 3, 30)
                 );
     }
 

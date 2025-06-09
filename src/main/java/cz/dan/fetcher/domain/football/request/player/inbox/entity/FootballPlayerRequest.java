@@ -1,7 +1,7 @@
 package cz.dan.fetcher.domain.football.request.player.inbox.entity;
 
 import cz.dan.fetcher.domain.inbox.entity.request.Request;
-import cz.dan.fetcher.domain.inbox.entity.request.Source;
+import cz.dan.fetcher.domain.source.Source;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.Builder.Default;
