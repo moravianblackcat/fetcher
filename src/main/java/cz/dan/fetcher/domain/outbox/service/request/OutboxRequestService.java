@@ -1,10 +1,25 @@
 package cz.dan.fetcher.domain.outbox.service.request;
 
-public interface OutboxRequestService<T> {
+import org.springframework.data.repository.CrudRepository;
 
-    void delete(long id);
+public abstract class OutboxRequestService<T> {
 
-    Iterable<T> getAll();
+    private final CrudRepository<T, Long> repository;
 
-    void save(T outbox);
+    protected OutboxRequestService(CrudRepository<T, Long> repository) {
+        this.repository = repository;
+    }
+
+    public void delete(long id) {
+        repository.deleteById(id);
+    }
+
+    public Iterable<T> getAll() {
+        return repository.findAll();
+    }
+    
+    public void save(T outbox) {
+        repository.save(outbox);
+    }
+    
 }

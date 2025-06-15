@@ -17,7 +17,7 @@ import java.util.Set;
 @Slf4j
 public abstract class RequestJob<E extends Outbox, R extends Request> {
 
-    private final Set<Fetcher<E>> fetchers;
+    private final Set<Fetcher<E, R>> fetchers;
 
     private final InboxRequestService<R> inboxRequestService;
 
@@ -29,7 +29,7 @@ public abstract class RequestJob<E extends Outbox, R extends Request> {
 
     private final RequestJobProcessor requestJobProcessor;
 
-    protected RequestJob(Set<Fetcher<E>> fetchers,
+    protected RequestJob(Set<Fetcher<E, R>> fetchers,
                          InboxRequestService<R> requestService,
                          OutboxRequestService<E> outboxRequestService, PersonService personService,
                          RequestJobProperties requestJobProperties,
@@ -48,7 +48,7 @@ public abstract class RequestJob<E extends Outbox, R extends Request> {
     }
 
     private List<R> getRequests() {
-        List<R> oldestScheduled = inboxRequestService.getOldestScheduled(requestJobProperties.getChunk());
+        List<R> oldestScheduled = inboxRequestService.getOldestForProcessing(requestJobProperties.getChunk());
         log.info("Found {} requests for job {}.", oldestScheduled.size(), requestJobProperties.getJobIdentifier());
 
         return oldestScheduled;
@@ -73,7 +73,7 @@ public abstract class RequestJob<E extends Outbox, R extends Request> {
         return getFetcherForRequest(request).get(request.getId());
     }
 
-    private Fetcher<E> getFetcherForRequest(R request) {
+    private Fetcher<E, R> getFetcherForRequest(R request) {
         return fetchers.stream()
                 .filter(fetcher -> fetcher.supports(request.getSource()))
                 .findFirst()

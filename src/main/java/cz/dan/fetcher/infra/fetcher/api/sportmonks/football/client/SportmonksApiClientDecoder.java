@@ -2,7 +2,6 @@ package cz.dan.fetcher.infra.fetcher.api.sportmonks.football.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import cz.dan.fetcher.infra.fetcher.api.sportmonks.football.dto.SportmonksFootballPlayerProfileDto;
 import feign.Response;
 import feign.codec.Decoder;
 import feign.jackson.JacksonDecoder;
@@ -26,7 +25,7 @@ public class SportmonksApiClientDecoder implements Decoder {
         try {
             return decoder.decode(response, type);
         } catch (IOException e) {
-            return SportmonksFootballPlayerProfileDto.builder().build();
+            return null;
         }
     }
 

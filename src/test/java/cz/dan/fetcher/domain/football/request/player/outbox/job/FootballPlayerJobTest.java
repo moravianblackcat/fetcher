@@ -1,14 +1,14 @@
 package cz.dan.fetcher.domain.football.request.player.outbox.job;
 
+import cz.dan.fetcher.domain.football.request.entity.RequestState;
 import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequest;
-import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequest.State;
 import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequestFailureDetail;
-import cz.dan.fetcher.domain.football.request.player.inbox.service.FootballPlayerInboxRequestService;
 import cz.dan.fetcher.domain.football.request.player.outbox.entity.FootballPlayerRequestOutbox;
-import cz.dan.fetcher.domain.football.request.player.outbox.service.FootballPlayerRequestOutboxService;
+import cz.dan.fetcher.domain.inbox.service.request.InboxRequestService;
 import cz.dan.fetcher.domain.outbox.exception.resource.ResourceNotFoundException;
 import cz.dan.fetcher.domain.outbox.fetcher.Fetcher;
 import cz.dan.fetcher.domain.outbox.job.request.RequestJobProcessor;
+import cz.dan.fetcher.domain.outbox.service.request.OutboxRequestService;
 import cz.dan.fetcher.domain.person.service.PersonService;
 import feign.FeignException;
 import feign.FeignException.BadRequest;
@@ -33,8 +33,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequest.State.RETRY;
-import static cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequest.State.SCHEDULED;
+import static cz.dan.fetcher.domain.football.request.entity.RequestState.RETRY;
+import static cz.dan.fetcher.domain.football.request.entity.RequestState.SCHEDULED;
 import static feign.Request.HttpMethod.GET;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -49,13 +49,13 @@ class FootballPlayerJobTest {
     }
 
     @Mock
-    private Fetcher<FootballPlayerRequestOutbox> fetcher;
+    private Fetcher<FootballPlayerRequestOutbox, FootballPlayerRequest> fetcher;
 
     @Mock
-    private FootballPlayerInboxRequestService footballPlayerInboxRequestService;
+    private InboxRequestService<FootballPlayerRequest> inboxRequestService;
 
     @Mock
-    private FootballPlayerRequestOutboxService footballPlayerRequestOutboxService;
+    private OutboxRequestService<FootballPlayerRequestOutbox> outboxRequestService;
 
     @Mock
     private PersonService personService;
@@ -72,16 +72,16 @@ class FootballPlayerJobTest {
     }
 
     @ParameterizedTest
-    @EnumSource(value = State.class, names = {"SCHEDULED", "RETRY"})
-    void setsRequestToCompletedAndSavesToOutbox(State state) throws Exception {
+    @EnumSource(value = RequestState.class, names = {"SCHEDULED", "RETRY"})
+    void setsRequestToCompletedAndSavesToOutbox(RequestState state) throws Exception {
         stubFootballPlayerRequestForProcessing(0L, state, new ArrayList<>());
         when(fetcher.get(0L)).thenReturn(FootballPlayerRequestOutbox.builder().build());
 
         FootballPlayerJob sut = getSut(0);
         sut.run();
 
-        verify(footballPlayerInboxRequestService, times(1)).setToCompletedAndSave(requestCaptor.capture());
-        verify(footballPlayerRequestOutboxService, times(1)).save(any());
+        verify(inboxRequestService, times(1)).setToCompletedAndSave(requestCaptor.capture());
+        verify(outboxRequestService, times(1)).save(any());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, state);
     }
@@ -95,29 +95,29 @@ class FootballPlayerJobTest {
         FootballPlayerJob sut = getSut(0);
         sut.run();
 
-        verify(footballPlayerRequestOutboxService, times(1)).save(outboxCaptor.capture());
+        verify(outboxRequestService, times(1)).save(outboxCaptor.capture());
         assertThat(outboxCaptor.getValue())
                 .isNotNull()
                 .hasFieldOrPropertyWithValue("id", 15L);
     }
 
     @ParameterizedTest
-    @EnumSource(value = State.class, names = {"SCHEDULED", "RETRY"})
-    void setsRequestToResourceNotFoundIfResourceIsNotFound(State state) throws Exception {
+    @EnumSource(value = RequestState.class, names = {"SCHEDULED", "RETRY"})
+    void setsRequestToResourceNotFoundIfResourceIsNotFound(RequestState state) throws Exception {
         stubFootballPlayerRequestForProcessing(0L, state, new ArrayList<>());
         doThrow(new ResourceNotFoundException()).when(fetcher).get(0L);
 
         FootballPlayerJob sut = getSut(0);
         sut.run();
 
-        verify(footballPlayerInboxRequestService, times(1)).setToResourceNotFoundAndSave(requestCaptor.capture());
+        verify(inboxRequestService, times(1)).setToResourceNotFoundAndSave(requestCaptor.capture());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, state);
     }
 
     @ParameterizedTest
     @MethodSource
-    void setsRequestToErrorForNonRepeatableErrorRegardlessOfPossibleRetries(int maxRetries, State state)
+    void setsRequestToErrorForNonRepeatableErrorRegardlessOfPossibleRetries(int maxRetries, RequestState state)
             throws Exception {
         stubFootballPlayerRequestForProcessing(1L, state, new ArrayList<>());
         throwHttpErrorWhenObtainingPlayer(1L,
@@ -126,7 +126,7 @@ class FootballPlayerJobTest {
         FootballPlayerJob sut = getSut(maxRetries);
         sut.run();
 
-        verify(footballPlayerInboxRequestService, times(1)).setToErrorAndSave(requestCaptor.capture());
+        verify(inboxRequestService, times(1)).setToErrorAndSave(requestCaptor.capture());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, state);
         assertReasonOfFirstFailure(savedRequest, "Bad Request");
@@ -151,7 +151,7 @@ class FootballPlayerJobTest {
         FootballPlayerJob sut = getSut(2);
         sut.run();
 
-        verify(footballPlayerInboxRequestService, times(1)).setToRetryAndSave(requestCaptor.capture());
+        verify(inboxRequestService, times(1)).setToRetryAndSave(requestCaptor.capture());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, SCHEDULED);
         assertReasonOfFirstFailure(savedRequest, expectedReason);
@@ -171,7 +171,7 @@ class FootballPlayerJobTest {
         FootballPlayerJob sut = getSut(3);
         sut.run();
 
-        verify(footballPlayerInboxRequestService, times(1)).save(requestCaptor.capture());
+        verify(inboxRequestService, times(1)).save(requestCaptor.capture());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, RETRY);
         assertReasonOfFirstFailure(savedRequest, "firstReason");
@@ -180,7 +180,7 @@ class FootballPlayerJobTest {
 
     @ParameterizedTest
     @MethodSource
-    void setsRequestToErrorForRepeatableErrorIfNotEnoughRetriesLeft(State state, int maxRetries,
+    void setsRequestToErrorForRepeatableErrorIfNotEnoughRetriesLeft(RequestState state, int maxRetries,
                                                                     List<FootballPlayerRequestFailureDetail> failureDetails)
             throws Exception {
         stubFootballPlayerRequestForProcessing(2L, state, failureDetails);
@@ -190,7 +190,7 @@ class FootballPlayerJobTest {
         FootballPlayerJob sut = getSut(maxRetries);
         sut.run();
 
-        verify(footballPlayerInboxRequestService, times(1)).setToErrorAndSave(requestCaptor.capture());
+        verify(inboxRequestService, times(1)).setToErrorAndSave(requestCaptor.capture());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, state);
     }
@@ -208,7 +208,7 @@ class FootballPlayerJobTest {
 
     @ParameterizedTest
     @MethodSource
-    void setsRequestToErrorForGenericErrorRegardlessOfPossibleRetries(int maxRetries, State state)
+    void setsRequestToErrorForGenericErrorRegardlessOfPossibleRetries(int maxRetries, RequestState state)
             throws Exception {
         stubFootballPlayerRequestForProcessing(7L, state, new ArrayList<>());
         doThrow(new Exception("Who knows")).when(fetcher).get(7L);
@@ -216,7 +216,7 @@ class FootballPlayerJobTest {
         FootballPlayerJob sut = getSut(maxRetries);
         sut.run();
 
-        verify(footballPlayerInboxRequestService, times(1)).setToErrorAndSave(requestCaptor.capture());
+        verify(inboxRequestService, times(1)).setToErrorAndSave(requestCaptor.capture());
         FootballPlayerRequest savedRequest = requestCaptor.getValue();
         assertState(savedRequest, state);
         assertReasonOfFirstFailure(savedRequest, "Who knows");
@@ -240,14 +240,14 @@ class FootballPlayerJobTest {
         );
     }
 
-    private void stubFootballPlayerRequestForProcessing(long playerId, State state,
+    private void stubFootballPlayerRequestForProcessing(long playerId, RequestState state,
                                                         List<FootballPlayerRequestFailureDetail> failureDetails) {
         FootballPlayerRequest request = FootballPlayerRequest.builder()
                 .id(playerId)
                 .state(state)
                 .failureDetails(failureDetails)
                 .build();
-        when(footballPlayerInboxRequestService.getOldestScheduled(CHUNK_VALUE)).thenReturn(List.of(request));
+        when(inboxRequestService.getOldestForProcessing(CHUNK_VALUE)).thenReturn(List.of(request));
     }
 
     private void throwHttpErrorWhenObtainingPlayer(long playerId, FeignException error) throws Exception {
@@ -261,11 +261,11 @@ class FootballPlayerJobTest {
         properties.setChunk(CHUNK_VALUE);
         properties.setMaxRetries(maxRetriesProperty);
 
-        return new FootballPlayerJob(Set.of(fetcher), footballPlayerInboxRequestService,
-                footballPlayerRequestOutboxService, personService, properties, new RequestJobProcessor());
+        return new FootballPlayerJob(Set.of(fetcher), inboxRequestService,
+                outboxRequestService, personService, properties, new RequestJobProcessor());
     }
 
-    private void assertState(FootballPlayerRequest savedRequest, State state) {
+    private void assertState(FootballPlayerRequest savedRequest, RequestState state) {
         assertThat(savedRequest)
                 .isNotNull()
                 .hasFieldOrPropertyWithValue("state", state);

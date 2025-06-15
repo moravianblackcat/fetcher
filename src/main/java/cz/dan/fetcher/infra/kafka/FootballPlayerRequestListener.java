@@ -2,8 +2,7 @@ package cz.dan.fetcher.infra.kafka;
 
 import cz.dan.avro.fetcher.Source;
 import cz.dan.avro.fetcher.request.FootballPlayerRequest;
-import cz.dan.fetcher.domain.football.request.player.inbox.service.FootballPlayerInboxRequestService;
-import cz.dan.fetcher.domain.football.request.player.inbox.source.FootballPlayerRequestSource;
+import cz.dan.fetcher.domain.inbox.service.request.InboxRequestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -17,14 +16,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FootballPlayerRequestListener {
 
-    private final FootballPlayerInboxRequestService service;
+    private final InboxRequestService<cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequest> service;
 
     @KafkaListener(topics = "fetcher.request.football.player")
     public void handle(@Payload FootballPlayerRequest request) {
         List<Long> playerIds = request.getIds();
         Source requestSource = request.getSource();
         log.info("Received request for football players with IDs {} from {}.", playerIds, requestSource);
-        service.saveRequests(playerIds, FootballPlayerRequestSource.valueOf(requestSource.name()));
+        service.saveRequests(playerIds, cz.dan.fetcher.domain.source.Source.valueOf(requestSource.name()));
         log.info("Request for football players with IDs {} from {} handled.", playerIds, requestSource);
     }
 

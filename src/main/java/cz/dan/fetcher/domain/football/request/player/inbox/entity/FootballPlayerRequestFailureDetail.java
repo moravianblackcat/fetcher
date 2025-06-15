@@ -1,19 +1,23 @@
 package cz.dan.fetcher.domain.football.request.player.inbox.entity;
 
+import cz.dan.fetcher.domain.football.request.entity.FailureDetail;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Clock;
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FootballPlayerRequestFailureDetail {
+public class FootballPlayerRequestFailureDetail implements FailureDetail<FootballPlayerRequest> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +27,8 @@ public class FootballPlayerRequestFailureDetail {
     private String reason;
 
     @Column(nullable = false)
-    private OffsetDateTime timestamp;
+    @Default
+    private OffsetDateTime timestamp = ZonedDateTime.now(Clock.systemUTC()).toOffsetDateTime();
 
     @ManyToOne
     @JoinColumns({
@@ -31,5 +36,10 @@ public class FootballPlayerRequestFailureDetail {
             @JoinColumn(name = "source", referencedColumnName = "source")
     })
     private FootballPlayerRequest footballPlayerRequest;
+
+    @Override
+    public FootballPlayerRequest getRequest() {
+        return footballPlayerRequest;
+    }
 
 }

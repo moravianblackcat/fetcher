@@ -1,0 +1,38 @@
+{
+  "type": "record",
+  "name": "PersonOutboxPayload",
+  "namespace": "cz.dan.avro.fetcher.outbox",
+  "fields": [
+    {
+      "name": "id",
+      "type": "long"
+    },
+    {
+      "name": "nationality",
+      "type": "string"
+    },
+    {
+      "name": "firstName",
+      "type": "string"
+    },
+    {
+      "name": "lastName",
+      "type": "string"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "displayName",
+      "type": "string"
+    },
+    {
+      "name": "dateOfBirth",
+      "type": {
+        "type": "int",
+        "logicalType": "date"
+      }
+    }
+  ]
+}

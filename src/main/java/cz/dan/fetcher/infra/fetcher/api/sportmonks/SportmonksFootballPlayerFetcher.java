@@ -1,5 +1,6 @@
 package cz.dan.fetcher.infra.fetcher.api.sportmonks;
 
+import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequest;
 import cz.dan.fetcher.domain.football.request.player.outbox.entity.FootballPlayerRequestOutbox;
 import cz.dan.fetcher.domain.outbox.exception.resource.ResourceNotFoundException;
 import cz.dan.fetcher.domain.outbox.fetcher.Fetcher;
@@ -16,7 +17,7 @@ import static cz.dan.fetcher.domain.source.Source.Sportmonks;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class SportmonksFootballPlayerFetcher implements Fetcher<FootballPlayerRequestOutbox> {
+public class SportmonksFootballPlayerFetcher implements Fetcher<FootballPlayerRequestOutbox, FootballPlayerRequest> {
 
     private final SportmonksFootballApiClient client;
 
@@ -36,7 +37,7 @@ public class SportmonksFootballPlayerFetcher implements Fetcher<FootballPlayerRe
 
     private SportmonksFootballPlayerProfileDto getSportmonksFootballPlayerProfileDto(long id) throws Exception {
         SportmonksFootballPlayerProfileDto dto = client.getPlayerProfile(id);
-        if (dto.data() == null) {
+        if (dto == null || dto.data() == null) {
             throw new ResourceNotFoundException("Sportmonks API returned no data for football player ID %s."
                     .formatted(id));
         }

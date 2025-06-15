@@ -1,5 +1,5 @@
 @football
-Feature: Football player request inbox
+Feature: Football player request outbox
   
   Scenario: Sending football players
 	Given Those football players are prepared for dispatching:

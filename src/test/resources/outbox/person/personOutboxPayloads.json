@@ -1,0 +1,18 @@
+[{
+        "id": 1,
+        "nationality": "ARG",
+        "firstName": "Mauricio Roberto",
+        "lastName": "Pochettino Trossero",
+        "name": "Mauricio Roberto Pochettino Trossero",
+        "displayName": "Mauricio Pochettino Trossero",
+        "dateOfBirth": "1972-03-02"
+    }, {
+        "id": 2,
+        "nationality": "ENG",
+        "firstName": "Sam",
+        "lastName": "Allardyce",
+        "name": "Sam Allardyce",
+        "displayName": "Sam Allardyce",
+        "dateOfBirth": "1954-10-19"
+    }
+]

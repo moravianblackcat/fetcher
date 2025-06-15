@@ -4,8 +4,6 @@ import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayer
 import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequestRepository;
 import cz.dan.fetcher.domain.football.request.player.inbox.entity.mapper.FootballPlayerRequestMapper;
 import cz.dan.fetcher.domain.football.request.player.inbox.entity.mapper.FootballPlayerRequestMapperImpl;
-import cz.dan.fetcher.domain.football.request.player.inbox.source.FootballPlayerRequestSource;
-import cz.dan.fetcher.domain.source.Source;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,13 +12,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequest.State.SCHEDULED;
+import static cz.dan.fetcher.domain.football.request.entity.RequestState.SCHEDULED;
+import static cz.dan.fetcher.domain.source.Source.Sportmonks;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class FootballPlayerInboxRequestServiceImplTest {
+class FootballPlayerInboxRequestServiceTest {
 
     @Spy
     private final FootballPlayerRequestMapper mapper = new FootballPlayerRequestMapperImpl();
@@ -29,14 +28,14 @@ class FootballPlayerInboxRequestServiceImplTest {
     private FootballPlayerRequestRepository repository;
 
     @InjectMocks
-    private FootballPlayerInboxRequestServiceImpl sut;
+    private FootballPlayerInboxRequestService sut;
 
     @Captor
     private ArgumentCaptor<List<FootballPlayerRequest>> footballPlayerRequestsCaptor;
 
     @Test
     void savesAllPlayerIdsInStandaloneRequests() {
-        sut.saveRequests(List.of(15L, 22L), FootballPlayerRequestSource.Sportmonks);
+        sut.saveRequests(List.of(15L, 22L), Sportmonks);
 
         verify(repository, times(1)).saveAll(footballPlayerRequestsCaptor.capture());
         assertThat(footballPlayerRequestsCaptor.getValue())
@@ -45,8 +44,8 @@ class FootballPlayerInboxRequestServiceImplTest {
                         FootballPlayerRequest::getSource,
                         FootballPlayerRequest::getState)
                 .containsExactly(
-                        Tuple.tuple(15L, Source.Sportmonks, SCHEDULED),
-                        Tuple.tuple(22L, Source.Sportmonks, SCHEDULED)
+                        Tuple.tuple(15L, Sportmonks, SCHEDULED),
+                        Tuple.tuple(22L, Sportmonks, SCHEDULED)
                 );
     }
 

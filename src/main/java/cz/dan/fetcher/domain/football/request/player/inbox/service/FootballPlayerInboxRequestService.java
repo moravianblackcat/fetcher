@@ -1,13 +1,21 @@
 package cz.dan.fetcher.domain.football.request.player.inbox.service;
 
 import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequest;
-import cz.dan.fetcher.domain.football.request.player.inbox.source.FootballPlayerRequestSource;
+import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequestRepository;
+import cz.dan.fetcher.domain.football.request.player.inbox.entity.mapper.FootballPlayerRequestMapper;
 import cz.dan.fetcher.domain.inbox.service.request.InboxRequestService;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+@Service
+@Slf4j
+@Transactional
+public class FootballPlayerInboxRequestService extends InboxRequestService<FootballPlayerRequest> {
 
-public interface FootballPlayerInboxRequestService extends InboxRequestService<FootballPlayerRequest> {
-
-    void saveRequests(List<Long> playerIds, FootballPlayerRequestSource source);
+    public FootballPlayerInboxRequestService(FootballPlayerRequestMapper mapper,
+                                             FootballPlayerRequestRepository repository) {
+        super(mapper, repository);
+    }
 
 }

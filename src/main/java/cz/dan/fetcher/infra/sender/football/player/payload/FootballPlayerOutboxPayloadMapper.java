@@ -9,6 +9,6 @@ import static org.mapstruct.ReportingPolicy.IGNORE;
 @Mapper(unmappedTargetPolicy = IGNORE)
 public interface FootballPlayerOutboxPayloadMapper {
 
-    FootballPlayerOutboxPayload from (FootballPlayerRequestOutbox requestOutbox);
+    FootballPlayerOutboxPayload from(FootballPlayerRequestOutbox requestOutbox);
 
 }
