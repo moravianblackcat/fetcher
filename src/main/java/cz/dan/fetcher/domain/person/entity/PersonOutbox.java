@@ -36,7 +36,7 @@ public class PersonOutbox implements Outbox {
     @Column(nullable = false, name = "display_name")
     private String displayName;
 
-    @Column(nullable = false, name = "date_of_birth")
+    @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
     @Override

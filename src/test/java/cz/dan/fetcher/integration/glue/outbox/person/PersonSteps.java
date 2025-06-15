@@ -4,6 +4,7 @@ import io.cucumber.java.en.Then;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,11 +28,14 @@ public class PersonSteps {
 
     private List<Map<String, Object>> getPersistedPersons() {
         return jdbcTemplate.query("SELECT * FROM person",
-                (rs, rowNum) -> Map.of(
-                        "id", rs.getLong(1),
-                        "source_id", rs.getLong(2),
-                        "source", rs.getString(3)
-                ));
+                (rs, rowNum) -> {
+                    Map<String, Object> row = new HashMap<>();
+                    row.put("id", rs.getLong(1));
+                    row.put("source_id", rs.getObject(2, Long.class));
+                    row.put("source", rs.getString(3));
+
+                    return row;
+                });
     }
 
 }

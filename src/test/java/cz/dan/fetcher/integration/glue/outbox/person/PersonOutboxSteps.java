@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -63,15 +64,17 @@ public class PersonOutboxSteps {
     private List<Map<String, Object>> getPersistedPersons() {
         return jdbcTemplate.query("SELECT id, nationality, first_name, last_name, "
                         + "name, display_name, date_of_birth FROM person_outbox",
-                (rs, rowNum) -> Map.of(
-                        "id", rs.getLong(1),
-                        "nationality", rs.getString(2),
-                        "first_name", rs.getString(3),
-                        "last_name", rs.getString(4),
-                        "name", rs.getString(5),
-                        "display_name", rs.getString(6),
-                        "date_of_birth", rs.getDate(7).toLocalDate()
-                ));
-    }
+                (rs, rowNum) -> {
+                    Map<String, Object> row = new HashMap<>();
+                    row.put("id", rs.getLong(1));
+                    row.put("nationality", rs.getString(2));
+                    row.put("first_name", rs.getString(3));
+                    row.put("last_name", rs.getString(4));
+                    row.put("name", rs.getString(5));
+                    row.put("display_name", rs.getString(6));
+                    row.put("date_of_birth", rs.getDate(7) != null ? rs.getDate(7).toLocalDate() : null);
 
+                    return row;
+                });
+    }
 }
