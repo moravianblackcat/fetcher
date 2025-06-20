@@ -6,6 +6,7 @@ import cz.dan.fetcher.domain.outbox.fetcher.Fetcher;
 import cz.dan.fetcher.domain.outbox.job.request.RequestJob;
 import cz.dan.fetcher.domain.outbox.job.request.RequestJobProcessor;
 import cz.dan.fetcher.domain.outbox.service.request.OutboxRequestService;
+import cz.dan.fetcher.domain.person.entity.Person;
 import cz.dan.fetcher.domain.person.entity.PersonOutbox;
 import cz.dan.fetcher.domain.person.service.PersonService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,13 +18,21 @@ import java.util.Set;
 @Slf4j
 public class FootballCoachJob extends RequestJob<PersonOutbox, FootballCoachRequest> {
 
+    private final PersonService personService;
+
     public FootballCoachJob(Set<Fetcher<PersonOutbox, FootballCoachRequest>> fetchers,
                             InboxRequestService<FootballCoachRequest> inboxRequestService,
                             OutboxRequestService<PersonOutbox> outboxRequestService,
-                            PersonService personService,
                             FootballCoachRequestJobProperties properties,
-                            RequestJobProcessor requestJobProcessor) {
-        super(fetchers, inboxRequestService, outboxRequestService, personService, properties, requestJobProcessor);
+                            RequestJobProcessor requestJobProcessor,
+                            PersonService personService) {
+        super(fetchers, inboxRequestService, outboxRequestService, properties, requestJobProcessor);
+        this.personService = personService;
+    }
+
+    @Override
+    protected Long saveInternally(FootballCoachRequest request) {
+        return personService.save(Person.builder().source(request.getSource()).sourceId(request.getId()).build());
     }
 
 }

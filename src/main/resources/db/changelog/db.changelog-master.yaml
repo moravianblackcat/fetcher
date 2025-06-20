@@ -128,6 +128,26 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - createTable:
+            tableName: team
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: source_id
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: source
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+        - createTable:
             tableName: football_coach_request
             columns:
               - column:
@@ -226,3 +246,97 @@ databaseChangeLog:
                   type: DATE
                   constraints:
                     nullable: true
+        - createTable:
+            tableName: football_team_request
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: source
+                  type: VARCHAR(255)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: state
+                  type: VARCHAR(20)
+                  defaultValue: SCHEDULED
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: football_team_request_failure_detail
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: reason
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: timestamp
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: team_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: source
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: football_team_request_failure_detail
+            baseColumnNames: team_id,source
+            referencedTableName: football_team_request
+            referencedColumnNames: id,source
+            constraintName: fk_failure_detail_to_football_team_request
+        - createTable:
+            tableName: football_team_request_outbox
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: founded
+                  type: int
+                  constraints:
+                    nullable: true
+              - column:
+                  name: country
+                  type: VARCHAR(3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: stadium
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false

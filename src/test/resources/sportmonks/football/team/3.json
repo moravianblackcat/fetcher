@@ -1,0 +1,78 @@
+{
+  "data": {
+    "id": 3,
+    "sport_id": 1,
+    "country_id": 462,
+    "venue_id": 212,
+    "gender": "male",
+    "name": "Sunderland",
+    "short_code": "SUN",
+    "image_path": "https://cdn.sportmonks.com/images/soccer/teams/3/3.png",
+    "founded": 1879,
+    "type": "domestic",
+    "placeholder": false,
+    "last_played_at": "2025-05-24 14:01:00",
+    "venue": {
+      "id": 212,
+      "country_id": 462,
+      "city_id": 87471,
+      "name": "Stadium of Light",
+      "address": "Millenium Way",
+      "zipcode": null,
+      "latitude": "54.914040",
+      "longitude": "-1.388983",
+      "capacity": 49000,
+      "image_path": "https://cdn.sportmonks.com/images/soccer/venues/20/212.png",
+      "city_name": "Sunderland",
+      "surface": "grass",
+      "national_team": false,
+      "city": {
+        "id": 87471,
+        "country_id": 462,
+        "region_id": 47,
+        "name": "Sunderland",
+        "latitude": null,
+        "longitude": null
+      }
+    },
+    "country": {
+      "id": 462,
+      "continent_id": 1,
+      "name": "England",
+      "official_name": "England",
+      "fifa_name": "ENG",
+      "iso2": "EN",
+      "iso3": "ENG",
+      "latitude": "54.56088638305664",
+      "longitude": "-2.2125117778778076",
+      "borders": [
+        "IRL"
+      ],
+      "image_path": "https://cdn.sportmonks.com/images/countries/png/short/en.png"
+    }
+  },
+  "subscription": [
+    {
+      "meta": {
+        "trial_ends_at": "2025-06-14 12:17:28",
+        "ends_at": "2025-07-01 11:18:19",
+        "current_timestamp": 1750138129
+      },
+      "plans": [
+        {
+          "plan": "European Plan",
+          "sport": "Football",
+          "category": "Standard"
+        }
+      ],
+      "add_ons": [],
+      "widgets": []
+    }
+  ],
+  "rate_limit": {
+    "resets_in_seconds": 3600,
+    "remaining": 2999,
+    "requested_entity": "Team"
+  },
+  "timezone": "UTC"
+}

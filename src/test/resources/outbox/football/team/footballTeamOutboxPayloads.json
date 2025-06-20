@@ -1,0 +1,16 @@
+[{
+  "id": 1,
+  "name": "Empoli",
+  "city": "Empoli",
+  "stadium": "Stadio Carlo Castellani",
+  "founded": 1920,
+  "country": "ITA"
+}, {
+  "id": 2,
+  "name": "Aalborg BK",
+  "city": "Aalborg",
+  "stadium": "Aalborg Portland Park",
+  "founded": 1885,
+  "country": "DEN"
+}
+]

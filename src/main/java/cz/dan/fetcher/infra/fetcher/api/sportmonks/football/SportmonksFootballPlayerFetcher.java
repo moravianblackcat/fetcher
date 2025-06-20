@@ -1,4 +1,4 @@
-package cz.dan.fetcher.infra.fetcher.api.sportmonks;
+package cz.dan.fetcher.infra.fetcher.api.sportmonks.football;
 
 import cz.dan.fetcher.domain.football.request.player.inbox.entity.FootballPlayerRequest;
 import cz.dan.fetcher.domain.football.request.player.outbox.entity.FootballPlayerRequestOutbox;

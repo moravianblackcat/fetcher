@@ -1,0 +1,18 @@
+{
+  "type": "record",
+  "name": "FootballTeamRequest",
+  "namespace": "cz.dan.avro.fetcher.request",
+  "fields": [
+    {
+      "name": "ids",
+      "type": {
+        "type": "array",
+        "items": "long"
+      }
+    },
+    {
+      "name": "source",
+      "type": "cz.dan.avro.fetcher.Source"
+    }
+  ]
+}

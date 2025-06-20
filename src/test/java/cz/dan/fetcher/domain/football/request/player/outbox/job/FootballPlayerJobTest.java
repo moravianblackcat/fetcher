@@ -262,7 +262,7 @@ class FootballPlayerJobTest {
         properties.setMaxRetries(maxRetriesProperty);
 
         return new FootballPlayerJob(Set.of(fetcher), inboxRequestService,
-                outboxRequestService, personService, properties, new RequestJobProcessor());
+                outboxRequestService, properties, new RequestJobProcessor(), personService);
     }
 
     private void assertState(FootballPlayerRequest savedRequest, RequestState state) {

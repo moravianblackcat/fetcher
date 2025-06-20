@@ -25,11 +25,10 @@ public abstract class InboxRequestService<T extends Request> {
         repository.save(request);
     }
     
-    public void saveRequests(List<Long> playerIds, Source source) {
-        List<T> requests =
-                playerIds.stream().map(playerId -> mapper.from(playerId, source)).toList();
+    public void saveRequests(List<Long> ids, Source source) {
+        List<T> requests = ids.stream().map(id -> mapper.from(id, source)).toList();
 
-        log.info("Saving {} football player requests.", requests.size());
+        log.info("Saving {} requests.", requests.size());
         repository.saveAll(requests);
     }
     

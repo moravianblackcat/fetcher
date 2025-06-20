@@ -2,7 +2,7 @@ package cz.dan.fetcher.infra.fetcher;
 
 import cz.dan.fetcher.domain.football.request.player.outbox.entity.FootballPlayerRequestOutbox;
 import cz.dan.fetcher.domain.outbox.exception.resource.ResourceNotFoundException;
-import cz.dan.fetcher.infra.fetcher.api.sportmonks.SportmonksFootballPlayerFetcher;
+import cz.dan.fetcher.infra.fetcher.api.sportmonks.football.SportmonksFootballPlayerFetcher;
 import cz.dan.fetcher.infra.fetcher.api.sportmonks.football.client.SportmonksFootballApiClient;
 import cz.dan.fetcher.infra.fetcher.api.sportmonks.football.dto.SportmonksFootballPlayerProfileDto;
 import cz.dan.fetcher.infra.fetcher.api.sportmonks.football.dto.SportmonksFootballPlayerProfileDto.Data;

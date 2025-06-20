@@ -3,6 +3,7 @@ package cz.dan.fetcher.infra.fetcher.api.sportmonks.football.client;
 import cz.dan.fetcher.infra.fetcher.api.sportmonks.config.SportmonksFeignConfig;
 import cz.dan.fetcher.infra.fetcher.api.sportmonks.football.dto.SportmonksFootballCoachProfileDto;
 import cz.dan.fetcher.infra.fetcher.api.sportmonks.football.dto.SportmonksFootballPlayerProfileDto;
+import cz.dan.fetcher.infra.fetcher.api.sportmonks.football.dto.SportmonksFootballTeamProfileDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,5 +18,8 @@ public interface SportmonksFootballApiClient {
 
     @GetMapping("/football/coaches/{coachId}?include=nationality")
     SportmonksFootballCoachProfileDto getCoachProfile(@PathVariable("coachId") long coachId) throws Exception;
+
+    @GetMapping("/football/teams/{teamId}?include=venue;country;venue.city")
+    SportmonksFootballTeamProfileDto getTeamProfile(@PathVariable("teamId") long teamId) throws  Exception;
 
 }

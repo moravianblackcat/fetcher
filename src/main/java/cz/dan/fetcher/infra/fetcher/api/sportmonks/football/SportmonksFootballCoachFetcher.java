@@ -1,4 +1,4 @@
-package cz.dan.fetcher.infra.fetcher.api.sportmonks;
+package cz.dan.fetcher.infra.fetcher.api.sportmonks.football;
 
 import cz.dan.fetcher.domain.football.request.coach.inbox.entity.FootballCoachRequest;
 import cz.dan.fetcher.domain.outbox.exception.resource.ResourceNotFoundException;

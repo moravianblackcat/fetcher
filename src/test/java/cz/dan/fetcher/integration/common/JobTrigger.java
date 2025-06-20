@@ -3,6 +3,8 @@ package cz.dan.fetcher.integration.common;
 import cz.dan.fetcher.domain.football.request.coach.outbox.job.FootballCoachJob;
 import cz.dan.fetcher.domain.football.request.player.outbox.job.FootballPlayerJob;
 import cz.dan.fetcher.domain.football.request.player.outbox.job.FootballPlayerOutboxJob;
+import cz.dan.fetcher.domain.football.request.team.outbox.job.FootballTeamJob;
+import cz.dan.fetcher.domain.football.request.team.outbox.job.FootballTeamOutboxJob;
 import cz.dan.fetcher.domain.person.outbox.job.PersonOutboxJob;
 import io.cucumber.java.en.When;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,11 @@ public class JobTrigger {
 
     private final FootballPlayerJob footballPlayerJob;
 
+    private final FootballTeamJob footballTeamJob;
+
     private final FootballPlayerOutboxJob footballPlayerOutboxJob;
+
+    private final FootballTeamOutboxJob footballTeamOutboxJob;
 
     private final PersonOutboxJob personOutboxJob;
 
@@ -34,6 +40,10 @@ public class JobTrigger {
             executeJobInDifferentThread(footballCoachJob::run);
         } else if ("personOutbox".equals(jobName)) {
             executeJobInDifferentThread(personOutboxJob::run);
+        } else if ("footballTeam".equals(jobName)) {
+            executeJobInDifferentThread(footballTeamJob::run);
+        } else if ("footballTeamOutbox".equals(jobName)) {
+            executeJobInDifferentThread(footballTeamOutboxJob::run);
         }
     }
 
