@@ -8,10 +8,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          java-version: '21'
-          distribution: 'openjdk'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
       - name: unit tests
         run: ./gradlew test
