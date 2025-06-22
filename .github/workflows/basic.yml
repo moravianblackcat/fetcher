@@ -3,7 +3,7 @@ on:
   push:
 
 jobs:
-  qa:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -17,5 +17,5 @@ jobs:
         run: chmod +x ./gradlew
       - name: Generate random token
         run: echo "sportmonks.api.token=$(openssl rand -hex 32)" > src/main/resources/token.properties
-      - name: unit tests
-        run: ./gradlew test
+      - name: Build project
+        run: ./gradlew build
