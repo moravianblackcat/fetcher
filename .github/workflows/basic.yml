@@ -13,8 +13,8 @@ jobs:
         with:
           distribution: 'oracle'
           java-version: 21
-      - name: Change wrapper permissions
-        run: chmod +x ./gradlew
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
       - name: Generate random token
         run: echo "sportmonks.api.token=$(openssl rand -hex 32)" > src/main/resources/token.properties
       - name: unit tests
