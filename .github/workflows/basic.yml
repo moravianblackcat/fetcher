@@ -3,6 +3,7 @@ on:
   push:
 
 jobs:
+  environment: prod
   build:
     runs-on: ubuntu-latest
     steps:
@@ -15,7 +16,7 @@ jobs:
           java-version: 21
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
-      - name: Generate random token
-        run: echo "sportmonks.api.token=$(openssl rand -hex 32)" > src/main/resources/token.properties
+      - name: Echo SPORTMONKS_API_TOKEN
+        run: echo "sportmonks.api.token=${{ secrets.SPORTMONKS_API_TOKEN }}" > src/main/resources/token.properties
       - name: Build project
         run: ./gradlew build
