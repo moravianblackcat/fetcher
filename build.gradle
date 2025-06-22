@@ -85,6 +85,7 @@ dependencies {
 	testImplementation "com.mysql:mysql-connector-j:${mysqlConnectorVersion}"
 	testImplementation "com.github.tomakehurst:wiremock-jre8:${wiremockVersion}"
 	testImplementation 'org.awaitility:awaitility:4.2.1'
+	testImplementation 'com.h2database:h2:2.2.222'
 }
 
 dependencyManagement {
