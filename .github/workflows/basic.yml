@@ -80,6 +80,6 @@ jobs:
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
       - name: Delete jar artifact
-        uses: actions/delete-artifact@v1
+        uses: geekyeggo/delete-artifact@v5
         with:
           name: jar-artifact
