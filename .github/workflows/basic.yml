@@ -20,7 +20,7 @@ jobs:
       - name: Build project
         run: ./gradlew build
       - name: Set services for integration tests
-        uses: hoverkraft-tech/compose-action@v.2.0.1
+        uses: hoverkraft-tech/compose-action@v2.0.1
         with:
           compose-file: docker-compose.yml
       - name: Run integration tests
