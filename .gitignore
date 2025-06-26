@@ -37,3 +37,4 @@ out/
 .vscode/
 
 token.properties
+gradle.properties

@@ -1,6 +1,0 @@
-{
-  "type": "enum",
-  "name": "Source",
-  "namespace": "cz.dan.avro.fetcher",
-  "symbols": ["Sportmonks"]
-}
