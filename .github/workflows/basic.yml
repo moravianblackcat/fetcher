@@ -19,3 +19,9 @@ jobs:
         run: echo "sportmonks.api.token=$(openssl rand -hex 32)" > src/main/resources/token.properties
       - name: Build project
         run: ./gradlew build
+      - name: Set services for integration tests
+        uses: hoverkraft-tech/compose-action@v.2.0.1
+        with:
+          compose-file: docker-compose.yml
+      - name: Run integration tests
+        run: ./gradlew integrationTests
