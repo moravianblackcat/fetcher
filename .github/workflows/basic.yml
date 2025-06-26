@@ -79,3 +79,7 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
+      - name: Delete jar artifact
+        uses: actions/delete-artifact@v1
+        with:
+          name: jar-artifact
