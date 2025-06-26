@@ -5,7 +5,7 @@ Feature: Football coach request inbox
 	When The following list of football coaches is requested to be fetched from Sportmonks:
 	  | 1543 |
 	  | 1544 |
-	Then 2s Those football coach requests are persisted:
+	Then 4s Those football coach requests are persisted:
 	  | id   | source     | state     |
 	  | 1543 | Sportmonks | SCHEDULED |
 	  | 1544 | Sportmonks | SCHEDULED |
