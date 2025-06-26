@@ -21,8 +21,8 @@ jobs:
       - name: Build project
         run: ./gradlew build
         env:
-          ACTOR: ${{ secrets.ACTOR }}
-          TOKEN: ${{ secrets.TOKEN }}
+          ACTOR: ${{ github.actor }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Set services for integration tests
         uses: hoverkraft-tech/compose-action@v2.0.1
         with:
