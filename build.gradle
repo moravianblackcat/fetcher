@@ -113,7 +113,7 @@ tasks.named('test') {
 	exclude '**/RunCucumberTests.class'
 }
 
-task integrationTests(type: JavaExec) {
+tasks.register('integrationTests', JavaExec) {
 	dependsOn assemble, testClasses
 	mainClass = "io.cucumber.core.cli.Main"
 	classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output

@@ -1,4 +1,4 @@
-package cz.dan.fetcher.integration.config;
+package cz.dan.fetcher.integration.fixture.request.football.coach;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;

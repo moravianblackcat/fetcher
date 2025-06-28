@@ -28,6 +28,10 @@ jobs:
         env:
           ACTOR: ${{ github.actor }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload test results
+        uses: actions/upload-test-results@v1
+        with:
+          path: build/test-results/test
       - name: Set services for integration tests
         uses: hoverkraft-tech/compose-action@v2.0.1
         with:

@@ -2,7 +2,7 @@ package cz.dan.fetcher.integration.glue.inbox.football.coach;
 
 import cz.dan.avro.fetcher.Source;
 import cz.dan.avro.fetcher.request.FootballCoachRequest;
-import cz.dan.fetcher.integration.config.FootballCoachRequestFixture;
+import cz.dan.fetcher.integration.fixture.request.football.coach.FootballCoachRequestFixture;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
