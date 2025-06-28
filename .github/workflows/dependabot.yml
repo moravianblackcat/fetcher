@@ -4,17 +4,5 @@ on:
     - cron: "0 0 * * 0"
 
 jobs:
-  dependabot:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout sources
-        uses: actions/checkout@v4
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'oracle'
-          java-version: 21
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v4
+  call-dependabot:
+    uses: moravianblackcat/cicd/.github/workflows/dependabot.yml@main
