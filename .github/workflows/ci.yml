@@ -16,3 +16,7 @@ on:
 jobs:
   call-ci:
     uses: moravianblackcat/cicd/.github/workflows/ci.yml@main
+    permissions:
+      packages: write
+      attestations: write
+      id-token: write
