@@ -14,9 +14,6 @@ on:
       - 'build.gradle'
   workflow_dispatch:
 
-env:
-  ENCRYPTION_PASSWORD: ${{ secrets.ENCRYPTION_PASSWORD }}
-
 jobs:
   call-ci:
     uses: moravianblackcat/cicd/.github/workflows/ci.yml@main
@@ -28,4 +25,3 @@ jobs:
     with:
       REGISTRY: ghcr.io
       IMAGE_NAME: ${{ github.repository }}
-      ENCRYPTION_PASSWORD: ${{ env.ENCRYPTION_PASSWORD }}
