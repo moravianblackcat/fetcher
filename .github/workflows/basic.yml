@@ -13,16 +13,17 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
+      - name: Generate random token
+        run: echo "sportmonks.api.token=$(openssl rand -hex 32)" > src/main/resources/token.properties
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'oracle'
           java-version: 21
-          cache: gradle
-      - name: Generate random token
-        run: echo "sportmonks.api.token=$(openssl rand -hex 32)" > src/main/resources/token.properties
       - name: Build project
-        run: ./gradlew build
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          arguments: build
         env:
           ACTOR: ${{ github.actor }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -31,7 +32,9 @@ jobs:
         with:
           compose-file: docker-compose.yml
       - name: Run integration tests
-        run: ./gradlew integrationTests
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          arguments: integrationTests
       - name: Upload jar
         uses: actions/upload-artifact@v4
         with:
