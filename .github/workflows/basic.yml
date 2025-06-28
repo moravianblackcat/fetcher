@@ -19,8 +19,6 @@ jobs:
           distribution: 'oracle'
           java-version: 21
           cache: gradle
-      - name: Change wrapper permissions
-        run: chmod +x ./gradlew
       - name: Generate random token
         run: echo "sportmonks.api.token=$(openssl rand -hex 32)" > src/main/resources/token.properties
       - name: Build project
@@ -28,10 +26,6 @@ jobs:
         env:
           ACTOR: ${{ github.actor }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload test results
-        uses: actions/upload-test-results@v1
-        with:
-          path: build/test-results/test
       - name: Set services for integration tests
         uses: hoverkraft-tech/compose-action@v2.0.1
         with:
