@@ -2,8 +2,14 @@ name: CI Workflow
 on:
   push:
     branches: ['main']
+    paths:
+      - '.github/workflows/**'
+      - 'src/main/**'
   pull_request:
     branches: ['main']
+    paths:
+      - '.github/workflows/**'
+      - 'src/main/**'
 
 env:
   REGISTRY: ghcr.io
@@ -40,13 +46,13 @@ jobs:
         with:
           arguments: integrationTests
       - name: Upload jar
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && (contains(github.event.head_commit.modified, 'src/main/') || contains(github.event.head_commit.added, 'src/main/') || contains(github.event.head_commit.removed, 'src/main/'))
         uses: actions/upload-artifact@v4
         with:
           name: jar-artifact
           path: build/libs
   build-and-push-image:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && (contains(github.event.head_commit.modified, 'src/main/') || contains(github.event.head_commit.added, 'src/main/') || contains(github.event.head_commit.removed, 'src/main/'))
     needs: build
     runs-on: ubuntu-latest
     permissions:
