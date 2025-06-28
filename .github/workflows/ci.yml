@@ -12,7 +12,7 @@ on:
       - '.github/workflows/**'
       - 'src/main/**'
       - 'build.gradle'
-o
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
