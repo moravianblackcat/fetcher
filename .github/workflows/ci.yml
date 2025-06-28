@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v3
       - name: Generate random token
         run: echo "sportmonks.api.token=$(openssl rand -hex 32)" > src/main/resources/token.properties
       - name: Setup Java
