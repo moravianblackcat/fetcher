@@ -1,3 +1,5 @@
+[![CI Workflow](https://github.com/moravianblackcat/fetcher/actions/workflows/ci.yml/badge.svg)](https://github.com/moravianblackcat/fetcher/actions/workflows/ci.yml)
+
 # Fetcher Project
 
 ## Overview
