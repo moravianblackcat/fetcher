@@ -51,7 +51,7 @@ ext {
 	set('mapStructVersion', '1.6.3')
 	set('mysqlConnectorVersion', '9.2.0')
 	set('springCloudVersion', "2025.0.0")
-	set('wiremockVersion', "2.35.1")
+	set('wiremockVersion', "3.0.1")
 }
 
 dependencies {
@@ -90,7 +90,7 @@ dependencies {
 	testImplementation 'org.junit.platform:junit-platform-suite'
 	testImplementation "org.assertj:assertj-core:${assertjVersion}"
 	testImplementation "com.mysql:mysql-connector-j:${mysqlConnectorVersion}"
-	testImplementation "com.github.tomakehurst:wiremock-jre8:${wiremockVersion}"
+	testImplementation "com.github.tomakehurst:wiremock:${wiremockVersion}"
 	testImplementation 'org.awaitility:awaitility:4.2.1'
 	testImplementation 'com.h2database:h2:2.2.222'
 }
