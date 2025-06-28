@@ -25,5 +25,5 @@ jobs:
     with:
       REGISTRY: ghcr.io
       IMAGE_NAME: ${{ github.repository }}
-    env:
+    secrets:
       ENCRYPTION_PASSWORD: ${{ secrets.ENCRYPTION_PASSWORD }}
