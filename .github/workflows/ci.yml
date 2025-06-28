@@ -12,6 +12,7 @@ on:
       - '.github/workflows/**'
       - 'src/main/**'
       - 'build.gradle'
+  workflow_dispatch: 
 
 env:
   ENCRYPTION_PASSWORD: ${{ secrets.ENCRYPTION_PASSWORD }}
