@@ -5,15 +5,18 @@ on:
     paths:
       - '.github/workflows/**'
       - 'src/main/**'
+      - 'build.gradle'
   pull_request:
     branches: ['main']
     paths:
       - '.github/workflows/**'
       - 'src/main/**'
-
+      - 'build.gradle'
+o
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  ENCRYPTION_PASSWORD: ${{ secrets.ENCRYPTION_PASSWORD }}
 
 jobs:
   build:
@@ -23,8 +26,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Validate Gradle wrapper
         uses: gradle/actions/wrapper-validation@v3
-      - name: Generate random token
-        run: echo "sportmonks.api.token=$(openssl rand -hex 32)" > src/main/resources/token.properties
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -46,13 +47,27 @@ jobs:
         with:
           arguments: integrationTests
       - name: Upload jar
-        if: github.ref == 'refs/heads/main' && (contains(github.event.head_commit.modified, 'src/main/') || contains(github.event.head_commit.added, 'src/main/') || contains(github.event.head_commit.removed, 'src/main/'))
+        if: github.ref == 'refs/heads/main' && (
+              contains(github.event.head_commit.modified, 'src/main/') ||
+              contains(github.event.head_commit.added, 'src/main/') ||
+              contains(github.event.head_commit.removed, 'src/main/') ||
+              contains(github.event.head_commit.modified, 'build.gradle') ||
+              contains(github.event.head_commit.added, 'build.gradle') ||
+              contains(github.event.head_commit.removed, 'build.gradle')
+            )
         uses: actions/upload-artifact@v4
         with:
           name: jar-artifact
           path: build/libs
   build-and-push-image:
-    if: github.ref == 'refs/heads/main' && (contains(github.event.head_commit.modified, 'src/main/') || contains(github.event.head_commit.added, 'src/main/') || contains(github.event.head_commit.removed, 'src/main/'))
+    if: github.ref == 'refs/heads/main' && (
+          contains(github.event.head_commit.modified, 'src/main/') ||
+          contains(github.event.head_commit.added, 'src/main/') ||
+          contains(github.event.head_commit.removed, 'src/main/') ||
+          contains(github.event.head_commit.modified, 'build.gradle') ||
+          contains(github.event.head_commit.added, 'build.gradle') ||
+          contains(github.event.head_commit.removed, 'build.gradle')
+        )
     needs: build
     runs-on: ubuntu-latest
     permissions:

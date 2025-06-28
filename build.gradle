@@ -76,6 +76,7 @@ dependencies {
 	implementation 'io.github.openfeign:feign-jackson:13.6'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	implementation "cz.dan:avro-schemas:1.0.1"
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 
 	testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
 
