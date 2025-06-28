@@ -1,4 +1,5 @@
 [![CI Workflow](https://github.com/moravianblackcat/fetcher/actions/workflows/ci.yml/badge.svg)](https://github.com/moravianblackcat/fetcher/actions/workflows/ci.yml)
+[![Dependabot](https://github.com/moravianblackcat/fetcher/actions/workflows/dependabot.yml/badge.svg)](https://github.com/moravianblackcat/fetcher/actions/workflows/dependabot.yml)
 
 # Fetcher Project
 
