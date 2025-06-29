@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import static cz.dan.fetcher.integration.await.AwaitHelper.assertValue;
-import static cz.dan.fetcher.integration.await.AwaitHelper.assertValueContains;
+import static cz.dan.await.AwaitHelper.assertValue;
+import static cz.dan.await.AwaitHelper.assertValueContains;
 
 @RequiredArgsConstructor
 public class FootballCoachFetchingSteps {
