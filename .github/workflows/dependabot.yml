@@ -1,8 +1,0 @@
-name: Dependabot
-on:
-  schedule:
-    - cron: "0 0 * * 0"
-
-jobs:
-  call-dependabot:
-    uses: moravianblackcat/cicd/.github/workflows/dependabot.yml@main
