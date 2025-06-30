@@ -51,6 +51,7 @@ ext {
 	set('mapStructVersion', '1.6.3')
 	set('mysqlConnectorVersion', '9.2.0')
 	set('springCloudVersion', "2025.0.0")
+	set('shedlockVersion', "5.5.0")
 	set('wiremockVersion', "3.0.1")
 }
 
@@ -77,6 +78,8 @@ dependencies {
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 	implementation "cz.dan:avro-schemas:1.0.1"
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+	implementation "net.javacrumbs.shedlock:shedlock-spring:${shedlockVersion}"
+	implementation "net.javacrumbs.shedlock:shedlock-provider-jdbc-template:${shedlockVersion}"
 
 	testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
 
