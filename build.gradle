@@ -97,6 +97,7 @@ dependencies {
 	testImplementation 'org.awaitility:awaitility:4.2.1'
 	testImplementation 'com.h2database:h2:2.2.222'
 	testImplementation "cz.dan:common-helpers:1.0.0"
+	testImplementation "cz.dan:integration-tests:1.0.1"
 }
 
 dependencyManagement {

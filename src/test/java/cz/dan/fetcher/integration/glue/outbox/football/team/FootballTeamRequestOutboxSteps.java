@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import cz.dan.avro.fetcher.outbox.FootballTeamOutboxPayload;
 import cz.dan.fetcher.integration.fixture.request.football.team.FootballTeamRequestOutboxFixture;
 import cz.dan.fetcher.integration.util.ClassPathResourceUtil;
-import cz.dan.fetcher.integration.util.kafka.TestKafkaConsumer;
+import cz.dan.integrationtests.kafka.TestKafkaConsumer;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import lombok.RequiredArgsConstructor;
