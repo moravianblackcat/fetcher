@@ -96,7 +96,7 @@ dependencies {
 	testImplementation "com.mysql:mysql-connector-j:${mysqlConnectorVersion}"
 	testImplementation "com.github.tomakehurst:wiremock:${wiremockVersion}"
 	testImplementation "cz.dan:common-helpers:1.0.0"
-	testImplementation "cz.dan:integration-tests:2.0.5"
+	testImplementation "cz.dan:integration-tests:3.0.0"
 }
 
 dependencyManagement {
