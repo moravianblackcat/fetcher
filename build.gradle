@@ -45,6 +45,7 @@ ext {
 	set('kafkaVersion', '7.9.1')
 	set('jacksonVersion', '2.18.0')
 	set('junitVersion', '5.10.0')
+	set('liquibaseVersion', '4.31.1')
 	set('lombokVersion', '1.18.38')
 	set('lombokMapstructBindingVersion', '0.2.0')
 	set('log4jVersion', '2.17.1')
@@ -65,10 +66,8 @@ dependencies {
 	annotationProcessor "org.projectlombok:lombok-mapstruct-binding:${lombokMapstructBindingVersion}"
 
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	implementation 'org.liquibase:liquibase-core'
+	implementation "org.liquibase:liquibase-core:${liquibaseVersion}"
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	implementation 'org.springframework.kafka:spring-kafka'
 	implementation "io.confluent:kafka-avro-serializer:${kafkaVersion}"
@@ -86,6 +85,8 @@ dependencies {
 	testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	testImplementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	testImplementation 'org.springframework.kafka:spring-kafka-test'
 	testImplementation 'io.cucumber:cucumber-java'
 	testImplementation 'io.cucumber:cucumber-spring'
@@ -94,10 +95,8 @@ dependencies {
 	testImplementation "org.assertj:assertj-core:${assertjVersion}"
 	testImplementation "com.mysql:mysql-connector-j:${mysqlConnectorVersion}"
 	testImplementation "com.github.tomakehurst:wiremock:${wiremockVersion}"
-	testImplementation 'org.awaitility:awaitility:4.2.1'
-	testImplementation 'com.h2database:h2:2.2.222'
 	testImplementation "cz.dan:common-helpers:1.0.0"
-	testImplementation "cz.dan:integration-tests:1.0.1"
+	testImplementation "cz.dan:integration-tests:2.0.5"
 }
 
 dependencyManagement {
