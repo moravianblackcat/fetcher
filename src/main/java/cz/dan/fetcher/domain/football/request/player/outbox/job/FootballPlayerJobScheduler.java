@@ -2,11 +2,13 @@ package cz.dan.fetcher.domain.football.request.player.outbox.job;
 
 import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
+@Profile("!integration-tests")
 public class FootballPlayerJobScheduler {
 
     private final FootballPlayerJob job;

@@ -58,6 +58,8 @@ services:
 
   akhq:
     image: tchiotludo/akhq:latest
+    profiles:
+      - local
     ports:
       - "8099:8080"
     depends_on:
