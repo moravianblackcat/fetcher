@@ -1,6 +1,6 @@
 package cz.dan.fetcher.infra.kafka;
 
-import cz.dan.avro.fetcher.outbox.PersonRequest;
+import cz.dan.avro.fetcher.request.PersonRequest;
 import cz.dan.fetcher.person.service.CustomPersonService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

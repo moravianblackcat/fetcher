@@ -1,6 +1,6 @@
 package cz.dan.fetcher.person.mapper;
 
-import cz.dan.avro.fetcher.outbox.PersonRequest;
+import cz.dan.avro.fetcher.request.PersonRequest;
 import cz.dan.fetcher.domain.person.entity.PersonOutbox;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -75,7 +75,7 @@ dependencies {
 	implementation "org.mapstruct:mapstruct:${mapStructVersion}"
 	implementation 'io.github.openfeign:feign-jackson:13.6'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-	implementation "cz.dan:avro-schemas:1.0.1"
+	implementation "cz.dan:avro-schemas:1.0.3"
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 	implementation "net.javacrumbs.shedlock:shedlock-spring:${shedlockVersion}"
 	implementation "net.javacrumbs.shedlock:shedlock-provider-jdbc-template:${shedlockVersion}"

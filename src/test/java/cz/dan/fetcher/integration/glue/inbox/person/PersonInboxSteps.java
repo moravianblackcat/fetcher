@@ -1,6 +1,6 @@
 package cz.dan.fetcher.integration.glue.inbox.person;
 
-import cz.dan.avro.fetcher.outbox.PersonRequest;
+import cz.dan.avro.fetcher.request.PersonRequest;
 import io.cucumber.java.en.When;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerRecord;

@@ -1,6 +1,6 @@
 package cz.dan.fetcher.person.service;
 
-import cz.dan.avro.fetcher.outbox.PersonRequest;
+import cz.dan.avro.fetcher.request.PersonRequest;
 import cz.dan.fetcher.domain.outbox.service.request.OutboxRequestService;
 import cz.dan.fetcher.domain.person.entity.Person;
 import cz.dan.fetcher.domain.person.entity.PersonOutbox;
