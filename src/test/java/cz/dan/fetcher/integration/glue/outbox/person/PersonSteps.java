@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static cz.dan.await.AwaitHelper.assertNoRows;
-import static cz.dan.await.AwaitHelper.assertRows;
+import static cz.dan.integrationtests.util.AwaitHelper.assertNoRows;
+import static cz.dan.integrationtests.util.AwaitHelper.assertRows;
 
 @RequiredArgsConstructor
 public class PersonSteps {

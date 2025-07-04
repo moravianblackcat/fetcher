@@ -3,8 +3,8 @@ package cz.dan.fetcher.integration.glue.outbox.person;
 import com.fasterxml.jackson.core.type.TypeReference;
 import cz.dan.avro.fetcher.outbox.PersonOutboxPayload;
 import cz.dan.fetcher.integration.fixture.person.PersonFixture;
-import cz.dan.integrationtests.util.ClassPathResourceUtil;
 import cz.dan.integrationtests.kafka.TestKafkaConsumer;
+import cz.dan.integrationtests.util.ClassPathResourceUtil;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static cz.dan.await.AwaitHelper.assertNoRows;
-import static cz.dan.await.AwaitHelper.assertRows;
+import static cz.dan.integrationtests.util.AwaitHelper.assertNoRows;
+import static cz.dan.integrationtests.util.AwaitHelper.assertRows;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RequiredArgsConstructor

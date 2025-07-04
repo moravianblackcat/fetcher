@@ -3,8 +3,8 @@ package cz.dan.fetcher.integration.glue.outbox.football.team;
 import com.fasterxml.jackson.core.type.TypeReference;
 import cz.dan.avro.fetcher.outbox.FootballTeamOutboxPayload;
 import cz.dan.fetcher.integration.fixture.request.football.team.FootballTeamRequestOutboxFixture;
-import cz.dan.integrationtests.util.ClassPathResourceUtil;
 import cz.dan.integrationtests.kafka.TestKafkaConsumer;
+import cz.dan.integrationtests.util.ClassPathResourceUtil;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static cz.dan.await.AwaitHelper.assertNoRows;
+import static cz.dan.integrationtests.util.AwaitHelper.assertNoRows;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RequiredArgsConstructor

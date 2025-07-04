@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import static cz.dan.await.AwaitHelper.*;
+import static cz.dan.integrationtests.util.AwaitHelper.*;
 
 @RequiredArgsConstructor
 public class FootballTeamFetchingSteps {

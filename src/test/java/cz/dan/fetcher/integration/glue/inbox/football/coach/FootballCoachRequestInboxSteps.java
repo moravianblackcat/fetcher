@@ -14,7 +14,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import java.util.List;
 import java.util.Map;
 
-import static cz.dan.await.AwaitHelper.assertRows;
+import static cz.dan.integrationtests.util.AwaitHelper.assertRows;
 
 @RequiredArgsConstructor
 public class FootballCoachRequestInboxSteps {
