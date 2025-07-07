@@ -95,7 +95,7 @@ dependencies {
 	testImplementation "org.assertj:assertj-core:${assertjVersion}"
 	testImplementation "com.mysql:mysql-connector-j:${mysqlConnectorVersion}"
 	testImplementation "com.github.tomakehurst:wiremock:${wiremockVersion}"
-	testImplementation "cz.dan:integration-tests:4.0.0"
+	testImplementation "cz.dan:integration-tests:5.0.1"
 }
 
 dependencyManagement {
