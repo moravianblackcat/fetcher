@@ -12,6 +12,19 @@ services:
     ports:
       - "3306:3306"
 
+  adminer:
+    image: adminer
+    profiles:
+      - local
+    container_name: adminer
+    restart: always
+    ports:
+      - 8090:8080
+    depends_on:
+      - fetcher-db
+    environment:
+      ADMINER_DEFAULT_SERVER: fetcher-db:3306
+
   sportmonks-api:
     image: wiremock/wiremock:2.32.0
     container_name: sportmonks-api

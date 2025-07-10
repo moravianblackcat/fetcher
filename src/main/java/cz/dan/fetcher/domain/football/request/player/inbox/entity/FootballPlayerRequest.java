@@ -49,6 +49,7 @@ public class FootballPlayerRequest extends Request {
     @Default
     private List<FootballPlayerRequestFailureDetail> failureDetails = new ArrayList<>();
 
+    @Override
     public void addFailureDetail(String reason) {
         failureDetails.add(FootballPlayerRequestFailureDetail.builder()
                 .footballPlayerRequest(this)
@@ -56,6 +57,7 @@ public class FootballPlayerRequest extends Request {
                 .build());
     }
 
+    @Override
     public int getNumberOfFailures() {
         return failureDetails.size();
     }

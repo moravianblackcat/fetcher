@@ -7,6 +7,7 @@ import cz.dan.fetcher.domain.source.Source;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 @Slf4j
@@ -26,12 +27,11 @@ public abstract class InboxRequestService<T extends Request> {
     }
     
     public void saveRequests(List<Long> ids, Source source) {
-        List<T> requests = ids.stream().map(id -> mapper.from(id, source)).toList();
+        List<T> requests = getRequestsToSave(ids, source);
 
-        log.info("Saving {} requests.", requests.size());
         repository.saveAll(requests);
     }
-    
+
     public List<T> getOldestForProcessing(int number) {
         return repository.findOldestForProcessing(number);
     }
@@ -49,6 +49,15 @@ public abstract class InboxRequestService<T extends Request> {
     
     public void setToCompletedAndSave(T request) {
         setToStateAndSave(T::toCompleted, request);
+    }
+
+    private List<T> getRequestsToSave(List<Long> ids, Source source) {
+        Set<Long> alreadyExistingRequestIds = repository.findAlreadyExistingRequestIds(ids, source.toString());
+
+        return ids.stream()
+                .filter(id -> !alreadyExistingRequestIds.contains(id))
+                .map(id -> mapper.from(id, source))
+                .toList();
     }
 
     private void setToStateAndSave(Consumer<T> setToState, T request) {

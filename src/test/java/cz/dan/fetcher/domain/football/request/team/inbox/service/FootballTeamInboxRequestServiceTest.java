@@ -11,12 +11,12 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Set;
 
 import static cz.dan.fetcher.domain.football.request.entity.RequestState.SCHEDULED;
 import static cz.dan.fetcher.domain.source.Source.Sportmonks;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class FootballTeamInboxRequestServiceTest {
@@ -34,8 +34,10 @@ class FootballTeamInboxRequestServiceTest {
     private ArgumentCaptor<List<FootballTeamRequest>> footballTeamRequestCaptor;
 
     @Test
-    void savesAllTeamIdsInStandaloneRequests() {
-        sut.saveRequests(List.of(122L, 535L), Sportmonks);
+    void savesOnlyNotAlreadySavedTeamIdsInStandaloneRequests() {
+        when(repository.findAlreadyExistingRequestIds(List.of(122L, 435L, 535L), "Sportmonks")).thenReturn(Set.of(435L));
+
+        sut.saveRequests(List.of(122L, 435L, 535L), Sportmonks);
 
         verify(repository, times(1)).saveAll(footballTeamRequestCaptor.capture());
         assertThat(footballTeamRequestCaptor.getValue())
