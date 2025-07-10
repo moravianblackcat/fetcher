@@ -22,7 +22,7 @@ public class FootballTeamRequestOutbox implements Outbox {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = true)
+    @Column()
     private Integer founded;
 
     @Column(nullable = false, length = 3)
@@ -31,7 +31,7 @@ public class FootballTeamRequestOutbox implements Outbox {
     @Column(nullable = false)
     private String stadium;
 
-    @Column(nullable = false)
+    @Column
     private String city;
 
     @Override

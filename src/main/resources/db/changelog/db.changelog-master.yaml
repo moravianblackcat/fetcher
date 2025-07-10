@@ -363,4 +363,4 @@ databaseChangeLog:
                   name: city
                   type: VARCHAR(255)
                   constraints:
-                    nullable: false
+                    nullable: true
